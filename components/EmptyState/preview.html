@@ -1,0 +1,12 @@
+<!-- @dsCard group="Display" height=220 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>EmptyState</title></head>
+<body>
+<div id="root" style="display:flex;justify-content:center;padding:0"></div>
+<script>
+var A=window.APM,h=React.createElement;
+ReactDOM.createRoot(document.getElementById("root")).render(h(A.EmptyState,{icon:'star',title:'No favorites yet',action:h(A.Button,{size:'sm',icon:'star'},'Browse all items')},'Star an item to pin it here and to the top of search.'));
+</script>
+</body>
+</html>

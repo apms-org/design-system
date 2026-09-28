@@ -1,0 +1,12 @@
+<!-- @dsCard group="Inputs" height=96 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Switch</title></head>
+<body>
+<div id="root" style="display:flex;flex-direction:column;gap:14px;padding:20px"></div>
+<script>
+var A=window.APM,h=React.createElement;
+ReactDOM.createRoot(document.getElementById("root")).render(h(React.Fragment,null,h('label',{style:{display:'flex',alignItems:'center',gap:10,fontSize:14}},h(A.Switch,{defaultChecked:true,label:'Lock when the screen locks'}),'Lock when the screen locks'),h('label',{style:{display:'flex',alignItems:'center',gap:10,fontSize:14}},h(A.Switch,{label:'Clear clipboard after 30 seconds'}),'Clear clipboard after 30 seconds')));
+</script>
+</body>
+</html>

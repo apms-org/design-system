@@ -1,0 +1,22 @@
+{
+  "name": "apm-design-system",
+  "version": "1.0.0",
+  "private": true,
+  "description": "The APM design system: tokens, components, guidelines, and the documentation site built with them.",
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "build": "node scripts/build.mjs",
+    "pdf": "node scripts/pdf.mjs"
+  },
+  "devDependencies": {
+    "electron": "^43.3.0",
+    "rolldown": "1.2.3"
+  },
+  "allowScripts": {
+    "electron": true
+  },
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  }
+}

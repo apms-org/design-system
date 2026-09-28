@@ -1,0 +1,12 @@
+<!-- @dsCard group="Display" height=200 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Callout</title></head>
+<body>
+<div id="root" style="display:flex;flex-direction:column;gap:12px;padding:20px;max-width:560px"></div>
+<script>
+var A=window.APM,h=React.createElement;
+ReactDOM.createRoot(document.getElementById("root")).render(h(React.Fragment,null,h(A.Callout,{tone:'warning',title:'Reused password',action:h(A.Button,{size:'sm'},'Change password')},'The same password is saved in Notion and Spotify.'),h(A.Callout,{tone:'accent',title:'Encrypted before upload'},'Sync sends only the sealed vault file. The provider never sees your master password.')));
+</script>
+</body>
+</html>

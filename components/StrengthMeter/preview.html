@@ -1,0 +1,12 @@
+<!-- @dsCard group="Display" height=96 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>StrengthMeter</title></head>
+<body>
+<div id="root" style="display:flex;flex-direction:column;gap:12px;align-items:flex-start;padding:20px"></div>
+<script>
+var A=window.APM,h=React.createElement;
+ReactDOM.createRoot(document.getElementById("root")).render(h(React.Fragment,null,h(A.StrengthMeter,{score:4,bits:118}),h(A.StrengthMeter,{score:3,bits:64}),h(A.StrengthMeter,{score:2,bits:52}),h(A.StrengthMeter,{score:1,bits:38,detail:'reused in 3 items'})));
+</script>
+</body>
+</html>

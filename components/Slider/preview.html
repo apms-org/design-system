@@ -1,0 +1,12 @@
+<!-- @dsCard group="Inputs" height=88 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Slider</title></head>
+<body>
+<div id="root" style="display:flex;padding:24px"></div>
+<script>
+var A=window.APM,h=React.createElement;
+ReactDOM.createRoot(document.getElementById("root")).render(h('div',{style:{display:'flex',alignItems:'center',gap:14,width:340}},h(A.Slider,{label:'Length',min:8,max:64,defaultValue:24}),h('span',{style:{fontFamily:'var(--font-mono)',fontSize:13,width:24,textAlign:'right'}},'24')));
+</script>
+</body>
+</html>

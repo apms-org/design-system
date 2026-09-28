@@ -1,0 +1,12 @@
+<!-- @dsCard group="Display" height=96 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Progress</title></head>
+<body>
+<div id="root" style="display:flex;flex-direction:column;gap:18px;padding:24px;max-width:360px"></div>
+<script>
+var A=window.APM,h=React.createElement;
+ReactDOM.createRoot(document.getElementById("root")).render(h(React.Fragment,null,h(A.Progress,{value:64,label:'Importing'}),h(A.Progress,{value:82,tone:'success',label:'Vault health'}),h(A.Progress,{indeterminate:true,label:'Syncing'})));
+</script>
+</body>
+</html>

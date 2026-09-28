@@ -1,0 +1,12 @@
+<!-- @dsCard group="Inputs" height=170 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Textarea</title></head>
+<body>
+<div id="root" style="display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start;padding:20px"></div>
+<script>
+var A=window.APM,h=React.createElement;
+ReactDOM.createRoot(document.getElementById("root")).render(h(React.Fragment,null,h(A.Textarea,{label:'Notes',rows:3,defaultValue:'Personal account. Recovery codes are in their own item.',style:{width:300}}),h(A.Textarea,{label:'Private key',mono:true,rows:3,defaultValue:'-----BEGIN OPENSSH PRIVATE KEY-----\nb3BlbnNzaC1rZXktdjEAAAAA',style:{width:300}})));
+</script>
+</body>
+</html>

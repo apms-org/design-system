@@ -1,0 +1,12 @@
+<!-- @dsCard group="Actions" height=150 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Button</title></head>
+<body>
+<div id="root" style="display:flex;flex-direction:column;gap:14px;padding:20px"></div>
+<script>
+var A=window.APM,h=React.createElement;
+ReactDOM.createRoot(document.getElementById("root")).render(h(React.Fragment,null,h('div',{style:{display:'flex',gap:10,alignItems:'center',flexWrap:'wrap'}},h(A.Button,{variant:'primary',icon:'plus'},'New item'),h(A.Button,{variant:'secondary',icon:'pencil'},'Edit'),h(A.Button,{variant:'ghost',icon:'history'},'History'),h(A.Button,{variant:'danger',icon:'trash-2'},'Delete')),h('div',{style:{display:'flex',gap:10,alignItems:'center',flexWrap:'wrap'}},h(A.Button,{variant:'primary',size:'sm',icon:'plus'},'New'),h(A.Button,{variant:'secondary',size:'lg',icon:'fingerprint'},'Unlock with Touch ID'),h(A.Button,{variant:'secondary',kbd:'\u2318 E'},'Edit'),h(A.Button,{variant:'primary',loading:true},'Saving'))));
+</script>
+</body>
+</html>

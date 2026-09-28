@@ -1,0 +1,12 @@
+<!-- @dsCard group="Overlays" height=330 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Menu</title></head>
+<body>
+<div id="root" style="display:flex;padding:20px"></div>
+<script>
+var A=window.APM,h=React.createElement;
+ReactDOM.createRoot(document.getElementById("root")).render(h(A.MenuList,{style:{width:240},items:[{label:'Copy password',icon:'copy',kbd:'\u2318 C'},{label:'Copy username',icon:'user',kbd:'\u2318 \u21e7 C'},{label:'Open website',icon:'external-link'},{separator:true},{label:'Duplicate',icon:'layers'},{label:'Move to space',icon:'folder',submenu:true},{label:'Version history',icon:'history'},{separator:true},{label:'Delete',icon:'trash-2',danger:true,kbd:'\u2318 \u232b'}]}));
+</script>
+</body>
+</html>

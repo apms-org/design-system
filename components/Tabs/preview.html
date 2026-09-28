@@ -1,0 +1,12 @@
+<!-- @dsCard group="Navigation" height=96 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Tabs</title></head>
+<body>
+<div id="root" style="display:block;padding:20px"></div>
+<script>
+var A=window.APM,h=React.createElement;
+ReactDOM.createRoot(document.getElementById("root")).render(h(A.Tabs,{label:'Watchtower',items:[{value:'all',label:'All issues',count:6},{value:'weak',label:'Weak',count:1},{value:'reused',label:'Reused',count:3},{value:'old',label:'Old',count:2}],defaultValue:'all'}));
+</script>
+</body>
+</html>

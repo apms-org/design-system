@@ -1,0 +1,12 @@
+<!-- @dsCard group="Inputs" height=88 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>SegmentedControl</title></head>
+<body>
+<div id="root" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:20px"></div>
+<script>
+var A=window.APM,h=React.createElement;
+ReactDOM.createRoot(document.getElementById("root")).render(h(React.Fragment,null,h(A.SegmentedControl,{label:'Theme',options:[{value:'light',label:'Light',icon:'sun'},{value:'dark',label:'Dark',icon:'moon'},{value:'system',label:'System',icon:'monitor'}],defaultValue:'dark'}),h(A.SegmentedControl,{label:'Length',options:['16','24','32','64'],defaultValue:'24'})));
+</script>
+</body>
+</html>

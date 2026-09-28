@@ -1,0 +1,12 @@
+<!-- @dsCard group="Overlays" height=470 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>CommandMenu</title></head>
+<body>
+<div id="root" style="display:flex;justify-content:center;padding:20px"></div>
+<script>
+var A=window.APM,h=React.createElement;
+ReactDOM.createRoot(document.getElementById("root")).render(h(A.CommandMenu,{layer:'none',groups:[{label:'Items',items:[{label:'GitHub',hint:'aarav-m',tile:{name:'GitHub'}},{label:'homelab ed25519',hint:'SSH key',tile:{icon:'terminal'}},{label:'Stripe live key',hint:'API key',tile:{icon:'key-round'}}]},{label:'Actions',items:[{label:'New item',icon:'plus',kbd:'\u2318 N'},{label:'Generate password',icon:'refresh-cw',kbd:'\u2318 G'},{label:'Lock vault',icon:'lock',kbd:'\u2318 L'}]}]}));
+</script>
+</body>
+</html>

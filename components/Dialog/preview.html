@@ -1,0 +1,12 @@
+<!-- @dsCard group="Overlays" height=330 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Dialog</title></head>
+<body>
+<div id="root" style="display:flex;justify-content:center;padding:24px"></div>
+<script>
+var A=window.APM,h=React.createElement;
+ReactDOM.createRoot(document.getElementById("root")).render(h(A.Dialog,{layer:'none',size:'sm',icon:'trash-2',tone:'danger',title:'Delete \u201cFigma\u201d?',description:'It moves to Trash for 30 days. You can restore it until then.',onClose:function(){},footer:h(React.Fragment,null,h(A.Button,null,'Cancel'),h(A.Button,{variant:'danger'},'Delete item'))}));
+</script>
+</body>
+</html>

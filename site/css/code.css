@@ -1,0 +1,16 @@
+.ds-code{position:relative;min-width:0;border-radius:var(--radius-lg);background:var(--bg-subtle);box-shadow:inset 0 0 0 1px var(--border)}
+.ds-code-head{display:flex;align-items:center;height:36px;padding:0 16px;box-shadow:inset 0 -1px 0 var(--border);color:var(--text-tertiary);font-family:var(--font-mono);font-size:11.5px}
+.ds-code pre{margin:0;padding:14px 48px 14px 16px;overflow-x:auto;scrollbar-width:thin;scrollbar-color:var(--border-strong) transparent}
+.ds-code code{display:block;min-width:max-content;color:var(--text);font-family:var(--font-mono);font-size:12.5px;line-height:20px;tab-size:2;white-space:pre}
+.ds-code.is-wrap code{min-width:0;white-space:pre-wrap;word-break:break-word}
+.ds-code>.apm-tip-wrap{position:absolute;top:6px;right:6px;z-index:3}
+.ds-code-copy{background:var(--bg-subtle)}
+.ds-tk-kw{color:var(--text-secondary);font-weight:500}
+.ds-tk-comp{color:var(--accent)}
+.ds-tk-tag{color:var(--accent)}
+.ds-tk-attr{color:var(--text-secondary)}
+.ds-tk-str{color:var(--success)}
+.ds-tk-num{color:var(--warning)}
+.ds-tk-punct{color:var(--text-tertiary)}
+.ds-tk-var{color:var(--accent)}
+.ds-tk-prompt{color:var(--accent);font-weight:600;user-select:none}

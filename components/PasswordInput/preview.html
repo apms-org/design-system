@@ -1,0 +1,12 @@
+<!-- @dsCard group="Inputs" height=200 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>PasswordInput</title></head>
+<body>
+<div id="root" style="display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start;padding:20px"></div>
+<script>
+var A=window.APM,h=React.createElement;
+ReactDOM.createRoot(document.getElementById("root")).render(h(React.Fragment,null,h(A.PasswordInput,{defaultValue:'correct horse',style:{width:340}}),h(A.PasswordInput,{error:'Incorrect password. 4 attempts left before a 30 second wait.',style:{width:340}})));
+</script>
+</body>
+</html>

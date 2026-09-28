@@ -1,0 +1,12 @@
+<!-- @dsCard group="Navigation" height=236 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>NavItem</title></head>
+<body>
+<div id="root" style="display:flex;padding:20px"></div>
+<script>
+var A=window.APM,h=React.createElement;
+ReactDOM.createRoot(document.getElementById("root")).render(h('div',{style:{width:232,display:'flex',flexDirection:'column',gap:1,padding:8,background:'var(--bg-subtle)',borderRadius:12}},h(A.NavItem,{icon:'layers',label:'All items',count:21,active:true}),h(A.NavItem,{icon:'star',label:'Favorites',count:3}),h(A.NavItem,{icon:'shield-alert',label:'Watchtower',badge:{tone:'warning',text:'4'}}),h(A.NavItem,{icon:'globe',label:'Logins',count:9}),h(A.NavItem,{icon:'terminal',label:'SSH keys',count:1}),h(A.NavItem,{icon:'lock',label:'Lock vault',kbd:['\u2318','L']})));
+</script>
+</body>
+</html>

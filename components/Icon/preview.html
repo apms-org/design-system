@@ -1,0 +1,12 @@
+<!-- @dsCard group="Foundations" height=104 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Icon</title></head>
+<body>
+<div id="root" style="display:flex;flex-wrap:wrap;gap:18px;align-items:center;padding:24px"></div>
+<script>
+var A=window.APM,h=React.createElement;
+ReactDOM.createRoot(document.getElementById("root")).render(h(React.Fragment,null,['lock','fingerprint','key-round','shield-check','globe','timer','terminal','cloud','credit-card','landmark','id-card','wifi','sticky-note','copy','eye','search','star','history','settings','trash-2'].map(function(n){return h('span',{key:n,title:n,style:{color:'var(--text-secondary)'}},h(A.Icon,{name:n,size:20}))})));
+</script>
+</body>
+</html>

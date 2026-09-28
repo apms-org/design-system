@@ -1,0 +1,12 @@
+<!-- @dsCard group="Display" height=88 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Badge</title></head>
+<body>
+<div id="root" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:20px"></div>
+<script>
+var A=window.APM,h=React.createElement;
+ReactDOM.createRoot(document.getElementById("root")).render(h(React.Fragment,null,h(A.Badge,{icon:'globe'},'Login'),h(A.Badge,{tone:'success',icon:'shield-check'},'2FA on'),h(A.Badge,{tone:'warning',icon:'triangle-alert'},'Reused password'),h(A.Badge,{tone:'danger',icon:'triangle-alert'},'Compromised'),h(A.Badge,{tone:'accent',dot:true},'Syncing'),h(A.Badge,{outline:true,icon:'tag'},'dev'),h(A.Badge,{tone:'warning',size:'sm'},'4')));
+</script>
+</body>
+</html>

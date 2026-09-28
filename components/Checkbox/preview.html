@@ -1,0 +1,12 @@
+<!-- @dsCard group="Inputs" height=120 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Checkbox</title></head>
+<body>
+<div id="root" style="display:flex;flex-direction:column;gap:14px;padding:20px"></div>
+<script>
+var A=window.APM,h=React.createElement;
+ReactDOM.createRoot(document.getElementById("root")).render(h(React.Fragment,null,h(A.Checkbox,{defaultChecked:true,label:'Uppercase',description:'A to Z'}),h(A.Checkbox,{defaultChecked:true,label:'Symbols',description:'! @ # $ % & *'}),h(A.Checkbox,{label:'Avoid ambiguous characters',description:'Leaves out I, l, 1, O and 0'})));
+</script>
+</body>
+</html>

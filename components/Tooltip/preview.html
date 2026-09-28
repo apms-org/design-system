@@ -1,0 +1,12 @@
+<!-- @dsCard group="Display" height=96 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Tooltip</title></head>
+<body>
+<div id="root" style="display:flex;gap:16px;align-items:center;padding:20px 20px 48px"></div>
+<script>
+var A=window.APM,h=React.createElement;
+ReactDOM.createRoot(document.getElementById("root")).render(h(React.Fragment,null,h(A.IconButton,{icon:'copy',label:'Copy password',kbd:'\u2318 C'}),h(A.IconButton,{icon:'lock',label:'Lock vault',kbd:'\u2318 L'}),h(A.Tooltip,{label:'Synced 2 minutes ago'},h(A.Badge,{tone:'success',icon:'cloud-check'},'Synced'))));
+</script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+<!-- @dsCard group="Vault" height=330 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>SecretField</title></head>
+<body>
+<div id="root" style="display:flex;padding:20px"></div>
+<script>
+var A=window.APM,h=React.createElement;
+ReactDOM.createRoot(document.getElementById("root")).render(h(A.FieldGroup,{style:{width:560}},h(A.SecretField,{label:'Username',icon:'user',value:'aarav-m'}),h(A.SecretField,{label:'Password',icon:'key-round',value:'k7#Qm2vR!pX9wLz4-Tb',secret:true,pinned:true},h(A.StrengthMeter,{score:4,bits:118,detail:'changed 42 days ago'})),h(A.SecretField,{label:'Password',icon:'key-round',value:'k7#Qm2vR!pX9wLz4-Tb',secret:true,reveal:true}),h(A.SecretField,{label:'One-time code',icon:'timer',totp:'JBSWY3DPEHPK3PXP'}),h(A.SecretField,{label:'Website',icon:'globe',value:'github.com',href:'https://github.com'})));
+</script>
+</body>
+</html>

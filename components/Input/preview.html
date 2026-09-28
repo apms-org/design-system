@@ -1,0 +1,12 @@
+<!-- @dsCard group="Inputs" height=190 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Input</title></head>
+<body>
+<div id="root" style="display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start;padding:20px"></div>
+<script>
+var A=window.APM,h=React.createElement;
+ReactDOM.createRoot(document.getElementById("root")).render(h(React.Fragment,null,h(A.Input,{label:'Title',defaultValue:'GitHub',style:{width:260}}),h(A.Input,{label:'Website',icon:'globe',placeholder:'github.com',hint:'Used to match this item in the browser extension.',style:{width:300}}),h(A.Input,{label:'Username',defaultValue:'aarav m',invalid:true,hint:'Usernames cannot contain spaces.',style:{width:260}})));
+</script>
+</body>
+</html>

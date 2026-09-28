@@ -1,0 +1,12 @@
+<!-- @dsCard group="Actions" height=88 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>IconButton</title></head>
+<body>
+<div id="root" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:20px"></div>
+<script>
+var A=window.APM,h=React.createElement;
+ReactDOM.createRoot(document.getElementById("root")).render(h(React.Fragment,null,h(A.IconButton,{icon:'copy',label:'Copy password'}),h(A.IconButton,{icon:'eye',label:'Reveal'}),h(A.IconButton,{icon:'star',label:'Favorite',active:true,filled:true}),h(A.IconButton,{icon:'check',label:'Copied',tone:'success'}),h(A.IconButton,{icon:'ellipsis',label:'More actions'}),h(A.IconButton,{icon:'settings',label:'Settings',variant:'secondary',size:'md'}),h(A.IconButton,{icon:'x',label:'Close',size:'xs'})));
+</script>
+</body>
+</html>
