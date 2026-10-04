@@ -26,7 +26,8 @@ const PAIRS = {
   "warning-soft": ["warning", "ground"],
   "danger-soft": ["danger", "ground"],
   "mark-ink": ["mark-tile", "text"],
-  "mark-tile": ["bg", "deco"]
+  "mark-tile": ["bg", "deco"],
+  "logo-plate": ["bg", "deco"]
 };
 
 export function pairFor(name) {
@@ -71,7 +72,7 @@ export const COLOR_GROUPS = [
   { id: "primary", title: "Primary", lede: "The loudest control is ink, not color.", names: ["primary", "primary-hover", "on-primary"] },
   { id: "accent", title: "Accent", lede: "A working color for focus, links and information. Never a large fill.", names: ["accent", "accent-hover", "accent-soft", "on-accent", "focus"] },
   { id: "status", title: "Status", lede: "Always with an icon and a word. The soft pair is the ground behind them.", names: ["success", "success-soft", "warning", "warning-soft", "danger", "danger-soft", "on-danger"] },
-  { id: "brand", title: "Brand and utility", lede: "The app icon stays dark in both themes. The overlay dims the app behind dialogs.", names: ["mark-tile", "mark-ink", "overlay"] }
+  { id: "brand", title: "Brand and utility", lede: "The app icon stays dark in both themes, and website logos sit on their own plate, with dark ink inverted in the dark theme. The overlay dims the app behind dialogs.", names: ["mark-tile", "mark-ink", "logo-plate", "overlay"] }
 ];
 
 export const tokenOf = (name) => byName[name];

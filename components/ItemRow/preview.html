@@ -6,7 +6,8 @@
 <div id="root" style="display:flex;padding:16px"></div>
 <script>
 var A=window.APM,h=React.createElement;
-ReactDOM.createRoot(document.getElementById("root")).render(h('div',{style:{width:324,display:'flex',flexDirection:'column',gap:1}},h(A.ItemRow,{title:'GitHub',subtitle:'aarav-m',time:'2m',favorite:true,active:true}),h(A.ItemRow,{title:'homelab ed25519',subtitle:'SHA256:9fQ2...c1Lw',icon:'terminal',mono:true,time:'Mon'}),h(A.ItemRow,{title:'Figma',subtitle:'aarav@example.com',time:'Mon',alert:'warning'})));
+var vercel="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 76 65'%3E%3Cpath d='M38 0 76 65H0z' fill='%23000'/%3E%3C/svg%3E";
+ReactDOM.createRoot(document.getElementById("root")).render(h('div',{style:{width:324,display:'flex',flexDirection:'column',gap:1}},h(A.ItemRow,{title:'GitHub',subtitle:'aarav-m',time:'2m',favorite:true,active:true}),h(A.ItemRow,{title:'homelab ed25519',subtitle:'SHA256:9fQ2...c1Lw',icon:'terminal',mono:true,time:'Mon'}),h(A.ItemRow,{title:'Vercel',subtitle:'aarav@example.com',src:vercel,time:'Mon',alert:'warning'})));
 </script>
 </body>
 </html>

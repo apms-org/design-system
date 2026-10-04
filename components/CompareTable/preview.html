@@ -1,0 +1,12 @@
+<!-- @dsCard group="Vault" height=260 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>CompareTable</title></head>
+<body>
+<div id="root" style="display:flex;flex-direction:column;gap:12px;padding:20px;max-width:640px"></div>
+<script>
+var A=window.APM,h=React.createElement;
+ReactDOM.createRoot(document.getElementById('root')).render(h(A.CompareTable,{columns:{left:'Your vault',right:'bitwarden_export.json'},rows:[{key:'username',label:'Username',left:'maya@example.com',right:'maya@example.com',kind:'same'},{key:'password',label:'Password',left:'hunter2-old',right:'c0rrect-Horse!',secret:true,kind:'changed'},{key:'website',label:'Website',left:'github.com',right:'github.com',kind:'same'},{key:'notes',label:'Notes',left:'',right:'Recovery email is the work one',kind:'added'}]}));
+</script>
+</body>
+</html>

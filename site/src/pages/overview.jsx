@@ -48,7 +48,9 @@ const START = [
   { icon: "sparkles", title: "Principles", body: "Five ideas every screen follows. Read these first.", to: "principles" },
   { icon: "palette", title: "Foundations", body: "Color, type, spacing, shape, motion and icons, straight from the tokens.", to: "color" },
   { icon: "layout-grid", title: "Components", body: meta.components.length + " live components with every variant, props and guidance.", to: "components" },
-  { icon: "workflow", title: "Patterns", body: "The lock card, the three panes, the detail view and the small chips.", to: "patterns" }
+  { icon: "workflow", title: "Patterns", body: "The lock card, the three panes, the detail view and the small chips.", to: "patterns" },
+  { icon: "puzzle", title: "Browser extension", body: "The popup, the menu on the page, save prompts, passkey sheets and the options page.", to: "extension" },
+  { icon: "palette", title: "Themes", body: "Light, Dark and the presets, each derived from 9 colors and checked for contrast.", to: "themes" }
 ];
 
 function StartCards() {
@@ -94,8 +96,8 @@ function UseInApp() {
   return (
     <div className="ds-use">
       <div className="ds-use-text">
-        <h3 className="ds-h3">In the desktop app</h3>
-        <p className="ds-p">The desktop app keeps a copy of <code className="ds-ic">tokens.css</code>, <code className="ds-ic">themes.js</code>, <code className="ds-ic">components/bundle.css</code>, <code className="ds-ic">components/bundle.js</code> and <code className="ds-ic">fonts/</code> in <code className="ds-ic">GUI/vendor/design-system</code>. Change a token or a component here, then run <code className="ds-ic">npm run ds:sync</code> in the app to ship it.</p>
+        <h3 className="ds-h3">In the app and the extension</h3>
+        <p className="ds-p">The desktop app keeps a copy of <code className="ds-ic">tokens.css</code>, <code className="ds-ic">themes.js</code>, <code className="ds-ic">components/bundle.css</code>, <code className="ds-ic">components/bundle.js</code> and <code className="ds-ic">fonts/</code> in <code className="ds-ic">GUI/vendor/design-system</code>. The browser extension keeps the same files plus <code className="ds-ic">patterns/extension.css</code> in <code className="ds-ic">extension/vendor/design-system</code>. Change a token, a component or a surface here, then run <code className="ds-ic">npm run ds:sync</code> in the app or the extension to ship it.</p>
         <p className="ds-p">Screens read components from <code className="ds-ic">window.APM</code> and style layout with the tokens. Never type a hex value in app CSS.</p>
       </div>
       <CodeBlock code={APP_CODE} />
@@ -125,6 +127,7 @@ const FILES = [
   ["tokens.json", "Every token with light and dark values and usage notes."],
   ["tokens.css", "CSS custom properties, type classes and @font-face rules."],
   ["components/", "bundle.js, bundle.css, index.d.ts, and a README per component."],
+  ["patterns/", "extension.css, the browser extension's popup, field menu, prompts, sheets and options page."],
   ["fonts/", "Geist and Geist Mono, variable woff2."],
   ["assets/Icons/", meta.icons.length + " Lucide SVG sources."],
   ["assets/Logos/", "The app icon and the mark in ink and white."],
@@ -183,7 +186,7 @@ export const overview = {
     { kind: "h", title: "Using the system", id: "use" },
     { key: "use-app", span: "full", node: <UseInApp /> },
     { key: "use-new", span: "full", node: <UseInNew /> },
-    { kind: "h", title: "Files", lede: "Everything lives in `design-system`. It is the one source; the app and this site both build from it.", id: "files" },
+    { kind: "h", title: "Files", lede: "Everything lives in `design-system`. It is the one source; the app, the extension and this site all build from it.", id: "files" },
     { key: "files", span: "full", node: <FileMap /> },
     { kind: "h", title: "Work on this site", id: "site" },
     { key: "cmds", span: "full", node: <CommandTable /> }

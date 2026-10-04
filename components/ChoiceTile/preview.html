@@ -1,0 +1,13 @@
+<!-- @dsCard group="Inputs" height=220 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>ChoiceTile</title></head>
+<body>
+<div id="root" style="display:flex;flex-direction:column;gap:12px;padding:20px;max-width:640px"></div>
+<script>
+var A=window.APM,h=React.createElement;
+function Demo(){var s=React.useState('bitwarden');return h(A.ChoiceGroup,{value:s[0],onChange:s[1],label:'Import from'},h(A.ChoiceTile,{value:'1password',tile:{name:'1Password'},title:'1Password',description:'.1pux from File > Export. 1Password leaves passkeys out.'}),h(A.ChoiceTile,{value:'bitwarden',tile:{name:'Bitwarden'},title:'Bitwarden',description:'Tools > Export vault > .json. Passkeys come along.',meta:h(A.Badge,{size:'sm',tone:'accent',icon:'fingerprint'},'Passkeys')}));}
+ReactDOM.createRoot(document.getElementById('root')).render(h(Demo));
+</script>
+</body>
+</html>

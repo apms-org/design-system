@@ -1146,9 +1146,9 @@
   ],
   "lastChange": {
     "by": "Aarav Maloo",
-    "at": "2026-09-28T18:47:55Z",
+    "at": "2026-09-28T23:23:23Z",
     "via": "Claude Code",
-    "note": "Segmented control thumb is now visible on raised surfaces and in dark themes"
+    "note": "1.2.0: patterns/extension.css holds every browser extension surface (popup, field menu, notes, toasts, passkey sheets, options page), shipped by ds:sync; a Browser extension page documents them with live specimens in both themes, plus pairing by code, several websites per login and website logos"
   },
   "layout": "files",
   "libraries": [

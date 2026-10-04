@@ -23,6 +23,8 @@ The design system stands alone. Its only dependencies are `rolldown` (the bundle
 
 The desktop app keeps its own copy of `tokens.css`, `themes.js`, `components/bundle.css`, `components/bundle.js`, `components/index.d.ts` and `fonts/` in `GUI/vendor/design-system`, so it builds without this folder. Change a token or a component here, then run `npm run ds:sync` in the app and commit its vendor folder. Screens read components from `window.APM`.
 
+The browser extension keeps the same tokens, bundle, types, fonts and React builds in `extension/vendor/design-system`, plus `patterns/extension.css`, which styles every extension surface: the toolbar popup, the field menu, the save and update notes, the toasts, the passkey sheets and the options page. Its own `src/ui/css/ui.css` only sizes the pages. Change a surface in `patterns/extension.css`, then run `npm run ds:sync` and `npm run build` in `extension/`. The Browser extension page (`#/extension`) renders every surface from the same file.
+
 ## Layout
 
 ```
@@ -32,6 +34,7 @@ design-system/
   tokens.json             every token with light and dark values and usage
   tokens.css              CSS custom properties, type classes, @font-face
   components/             bundle.js, bundle.css, index.d.ts, a README per component
+  patterns/extension.css  the browser extension's surfaces, shipped to the extension by ds:sync
   fonts/                  Geist and Geist Mono, variable woff2
   assets/Icons/           Lucide SVG sources
   assets/Logos/           app icon and marks
@@ -60,16 +63,17 @@ design-system/
 - Color, type, spacing, radius, shadow and size come from `tokens.json`, the motion values from `components/bundle.css`. Contrast ratios are computed with the same math the app uses.
 - Each component page lists every example named `ComponentName_Title` in `site/src/examples/`. The code shown under a specimen is read from that function's source at build time, so it always matches what renders. Captions live in each file's `specs` object and the do and don't lists in `notes`.
 - Props tables are generated from `components/index.d.ts`, defaults from the parameter defaults in `components/bundle.js`.
+- The Browser extension page takes its surfaces table and rules from the `Browser extension` section of `README.md`, and its specimens from the `ExtPopup_`, `ExtMenu_`, `ExtPrompt_`, `ExtOptions_`, `ExtApp_` and `ExtTheme_` examples in `site/src/examples/extension.jsx`. The specimens use the real class names from `patterns/extension.css`, which the site loads after the bundle styles.
 - Theme presets and `tokensFor` live in `themes.js` at the root of this folder. The app vendors the same file, so the Themes page shows exactly what the app applies.
 
 To document a new component: add its folder and README, export it from the bundle and `index.d.ts`, then add `NewThing_Variants` (and more) to a file in `site/src/examples/`. The page, the sidebar entry, the search entry and the PDF section appear on the next build.
 
 ## Routes
 
-Hash routes deep link to any page: `#/overview`, `#/color`, `#/typography`, `#/icons?q=lock`, `#/components/secret-field`, `#/patterns`, `#/themes`. Press ⌘K or / to search pages, components, tokens and icons. Choosing a token or an icon also copies it.
+Hash routes deep link to any page: `#/overview`, `#/color`, `#/typography`, `#/icons?q=lock`, `#/components/secret-field`, `#/patterns`, `#/extension`, `#/themes`. Press ⌘K or / to search pages, components, tokens and icons. Choosing a token or an icon also copies it.
 
 ## The PDF
 
-`print.html` renders the same page blocks as the site. Each block is measured off screen, then packed onto 1280 by 800 pages: every section and every component starts on a new page, a heading always stays with the block after it, blocks are never split, and a block taller than a page is scaled to fit. The cover and the contents come first; page numbers in the contents are computed after packing. The Color pages show both palettes side by side, and "Patterns in dark" repeats the patterns on the dark palette.
+`print.html` renders the same page blocks as the site. Each block is measured off screen, then packed onto 1280 by 800 pages: every section and every component starts on a new page, a heading always stays with the block after it, blocks are never split, and a block taller than a page is scaled to fit. The cover and the contents come first; page numbers in the contents are computed after packing. The Color pages show both palettes side by side, "Patterns in dark" repeats the patterns on the dark palette, and "Extension in dark" does the same for the browser extension.
 
 Print swaps blurred shadows for stacked hairline shadows, because PDF viewers such as Preview draw blurred shadows as grey boxes.

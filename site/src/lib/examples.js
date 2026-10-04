@@ -7,8 +7,9 @@ import * as display from "../examples/display.jsx";
 import * as overlays from "../examples/overlays.jsx";
 import * as brand from "../examples/brand.jsx";
 import * as patterns from "../examples/patterns.jsx";
+import * as extension from "../examples/extension.jsx";
 
-const MODULES = [actions, inputs, navigation, vault, display, overlays, brand, patterns];
+const MODULES = [actions, inputs, navigation, vault, display, overlays, brand, patterns, extension];
 const FNS = {};
 const SPECS = {};
 export const NOTES = {};

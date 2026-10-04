@@ -29,6 +29,10 @@ Real copy from the product:
 | Copy feedback | Copied password · Clears in 30s |
 | Watchtower | Reused password. The same password is saved in Notion and Spotify. If one leaks, all three are exposed. |
 | Empty search | No matches for "stripe". Search looks at names, usernames, types and tags. |
+| Extension, not connected | APM isn't connected. Open the APM app, or link this browser once with pm extension link. |
+| Field menu, locked | Unlock from the toolbar to fill. APM never asks for your master password inside a web page. |
+| Save prompt | Save login for github.com? You just signed in. APM can fill it next time. |
+| Fill on another site | This login is saved for a different website. Only continue if you trust this page. |
 
 ## Color
 
@@ -40,6 +44,7 @@ Real copy from the product:
 - Status colors always travel with an icon and a word. `success` for 2FA on, strong passwords and sync. `warning` for reused, weak or aging secrets and the last 7 seconds of a one-time code. `danger` for wrong passwords, deletion and compromise. Their `-soft` pair is the ground behind them in badges and callouts.
 - Revealed passwords are colorized character by character: letters in `text`, digits in `accent`, symbols in `warning`. This makes `0` against `O` and `l` against `1` readable at a glance.
 - `mark-tile` and `mark-ink` render the app icon. The tile stays dark in both themes, like the icon in the Dock.
+- `logo-plate` is the ground behind a website logo in an item tile: white in light, a tile grey in dark. `logo-ink-filter` inverts transparent logos whose ink is mostly dark (Vercel, GitHub) in the dark theme so they stay visible. Colored logos are left as they are, and opaque square icons fill the tile edge to edge.
 - Input and button borders (`border-strong`) sit near 1.5:1 against `bg` by design. Every input carries a label or placeholder, and the focus state switches the border to `accent` with a 3px halo, which clears 3:1 on every ground.
 
 ## Typography
@@ -92,8 +97,11 @@ Motion confirms that something happened. It never decorates.
 - Icons are Lucide, the icon set shadcn/ui uses, drawn at 16px with a 1.75 stroke (14px in badges and captions, 20px on the lock field). Render them with the `Icon` component by name; the Icons asset group holds the SVG sources.
 - Icons inherit `currentColor`. Resting icons are `text-tertiary`, active ones `text`, status icons take their status color.
 - Every item type has one icon: Logins `globe`, Authenticator `timer`, API keys `key-round`, SSH keys `terminal`, Cloud credentials `cloud`, Cards `credit-card`, Banking `landmark`, Identities `id-card`, Wi-Fi `wifi`, Secure notes `sticky-note`.
-- Logins show a monogram tile (the first letter, `ItemIcon`); other types show their type icon in the tile. APM never fetches favicons, because a request to a site would leak which accounts you have.
+- Logins show the site's own logo on a `logo-plate` tile (`ItemIcon` with `src`), and a monogram tile (the first letter) until the logo arrives, when the site has none, or when website icons are off. Other types show their type icon in the tile. The app, the extension popup, the menu on the page and the passkey sheets all use the same tile.
+- APM fetches a logo only from the site itself and caches it on this computer. Never load one from a third-party favicon service: a stranger would learn which accounts you have. The logo belongs to the first website of a login that APM can fetch, so `localhost`, IP addresses and `.local` names keep the monogram.
+- "Show website icons" in Settings, Appearance turns logos off for the app and the extension alike, and "Clear icon cache" deletes the cache. Every surface must still read well with monograms only.
 - The brand mark is the bird from the app icon. Use `Mark` with `tile` for the app icon (lock screen, space switcher) and bare `Mark` in running text. Never recolor the tile or rotate the bird.
+- The macOS app icon has one source: `GUI/build/AppIcon.icon`, an Icon Composer document. It is the bird (`Assets/bird.svg`, the same paths as `brand/square`) as a white glass layer over the `mark-tile` fill. Edit it in Icon Composer and check all four styles, Default, Dark, Clear and Tinted, before you ship. Packaging compiles it into `Assets.car`, so macOS 26 and later draw the glass, the Dock shadow and the styles themselves. `GUI/build/icon.icns` is the fallback for older macOS; rebuild it whenever the bird changes. Never set a Dock image in a packaged build, because a bitmap replaces the system treatment. `npm run icon:dev` in `GUI/` renders the Default style for development runs.
 
 ## Components
 
@@ -104,6 +112,33 @@ Mount the real components from the bundle (`window.APM`). Each card in the index
 - Every copy shows a `Toast`. Secrets get a 30 second clipboard countdown; plain values get a short confirmation.
 - `NavItem` builds the sidebar; show counts in `text-tertiary`, and a `Badge` with tone `warning` for Watchtower issues.
 - Keyboard first: ⌘K focuses search, ⌘L locks, arrow keys move the selection, Esc clears search. Show shortcuts with `Kbd`.
+- A login can hold several websites: the main one in `website`, the others in `urls`. List them together under "Websites", one per row in `mono`, with Add at the end. APM fills the login on any of them.
+- Moving data in and out is one flow in three steps, shown with `Stepper`: Source, Review, Done. `ChoiceTile` in a `ChoiceGroup` picks the source app or export format, and `FileDrop` takes the file.
+- Review before you write. A `StatGroup` counts what a file brings (New, Already in vault, Conflicts, Possible duplicates, Can't import, Passkeys), and each count filters the list. Every item is a `ReviewRow` whose trailing control says what happens to it (Add, Skip, Merge, Replace, Keep both). Expanding a row shows a `CompareTable` of your vault against the file, secrets masked until you reveal them.
+- An import never overwrites silently. Items whose values clash stay on Skip until you choose, a merge only fills gaps, and the result offers "Undo import".
+
+## Browser extension
+
+APM for Chrome fills logins, one-time codes and passkeys from the vault through the APM app on the same computer. It never opens `vault.dat` and never holds the master password or a private key. Its surfaces are built from the same tokens and components, plus the classes in `patterns/extension.css`, which the extension copies with `npm run ds:sync`.
+
+| Surface | Root class | Size | Where it lives |
+| --- | --- | --- | --- |
+| Toolbar popup | `.px` | 380 × 580 | The toolbar button, `Alt+Shift+A` |
+| Field menu | `.im` | 328 wide, up to 560 tall | In-page extension frame, 6px under the field or above it when there is no room |
+| Save and update note | `.np` | 360 wide | In-page extension frame, 12px from the top-right corner |
+| Toast | `.pr-toast` | 360 wide | In-page extension frame, under the note |
+| Passkey sheet | `.sheet` | 400 wide | In-page extension frame, centered over a scrim |
+| Options page | `.opt` | A full tab, one column under 720px | The extension's options tab |
+
+- **Never ask for the master password inside a web page.** A page can draw a fake prompt, but it cannot draw inside the toolbar. When APM is locked, the field menu and the passkey sheets say so and send you to the toolbar popup or Touch ID.
+- **In-page UI runs only in extension frames.** The field menu, the notes, the sheets and the toasts are extension pages in an iframe inside a closed shadow root. The page cannot read, restyle or click into them, and the extension never adds its own markup or styles to the page.
+- **Prompts sit top-right, sheets are centered.** Save and update notes and toasts wait in the top-right corner and never cover the form. A passkey sheet answers a request the page just made, so it centers over an `overlay` scrim. Esc, the close button or "Not now" dismiss every one of them.
+- **Keyboard first.** In the field menu, ↑ and ↓ move the highlight, Enter fills it and Esc closes the menu, while focus stays in the page's field. The commands are `Alt+Shift+A` to open APM, `Alt+Shift+F` to fill the best login, `Alt+Shift+G` to fill a strong password and `Alt+Shift+L` to lock. Show them with `Kbd` as ⌥ ⇧ A on a Mac.
+- **Works without the app, after one link.** With the app closed, the extension talks to `pm` through the browser's native messaging. Wherever the extension asks you to connect, show the next step as a `Command` (`pm extension link`), with `block` in the popup. Say which side holds the key: "the APM app" or "pm on this computer".
+- **Name the site, always.** The menu head shows the host in `mono-small`, and every prompt puts it in the title ("Save login for github.com?", "Sign in to github.com"), so a frame on the wrong page is obvious.
+- **One job per surface.** The popup finds, copies and edits. The menu fills. A note saves. A sheet creates or signs with a passkey. Anything else links to the popup instead of growing the in-page UI.
+- **Ask before filling on another site.** A login fills only on its own websites. On any other page the popup asks first ("Fill once", "Fill and remember"), and "Fill and remember" adds the site to the login.
+- **Copy is short and exact.** Titles ask a question when you decide ("Update the password for maya@example.com?") and state a fact when you cannot act ("APM is locked", "Not filling here"). Buttons name the result: Fill, Save, Update, Save passkey, Sign in, "Use this browser instead". Errors say how to fix it: "APM isn't connected. Open the APM app, or link this browser once with pm extension link."
 
 ## Accessibility
 

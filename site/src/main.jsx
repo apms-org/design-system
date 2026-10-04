@@ -76,9 +76,18 @@ function Search({ open, onClose }) {
       ...Object.entries(meta.motion).map(([k, v]) => ({ label: "--" + k, hint: "Motion · " + v, icon: "activity", keywords: "", to: "motion" })),
       ...meta.tokens.type.groups.flatMap((g) => g.styles.map((s) => ({ label: "." + s.name, hint: "Type · " + s.fontSize, icon: "file-text", keywords: s.usage, to: "typography", copyText: s.name })))
     ];
+    const surfaces = [
+      ["popup", "Toolbar popup", "Extension · 380 × 580", "layout-grid", "popup px toolbar pairing lock vault codes generator detail websites passkeys"],
+      ["menu", "Field menu", "Extension · 328 wide", "mouse-pointer-click", "im inline menu autofill field login code new password locked blocked connect"],
+      ["prompts", "Save prompt and passkey sheet", "Extension · prompts", "fingerprint", "np save update note toast sheet passkey create sign in pick"],
+      ["options", "Extension options page", "Extension · options", "settings", "opt options settings connection autofill shortcuts excluded sites bridge welcome"],
+      ["app", "Pairing dialog and Browser extension settings", "Desktop app", "plug", "pair pairing code dialog bridge browser extension website icons passkeys"]
+    ];
+    const toHeading = (id) => { go("extension"); setTimeout(() => { const el = document.getElementById(id); if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 24 }); }, 260); };
     return [
       { label: "Components", limit: 8, idleLimit: 4, items: comps.map((p) => ({ id: p.id, label: p.title, hint: p.subgroup, icon: "layout-grid", keywords: p.subgroup, onSelect: () => go(p.id) })) },
       { label: "Pages", limit: 6, idleLimit: 6, items: pages.map((p) => ({ id: p.id, label: p.nav === "All components" ? "Components" : p.nav, hint: p.group, icon: p.icon, keywords: p.keywords, onSelect: () => go(p.id) })) },
+      { label: "Extension", limit: 5, idleLimit: 2, items: surfaces.map(([id, label, hint, icon, keywords]) => ({ id: "x" + id, label, hint, icon, keywords, onSelect: () => toHeading(id) })) },
       { label: "Tokens", limit: 8, idleLimit: 3, items: tokens.map((t) => ({ id: "t" + t.label, label: t.label, hint: t.hint, icon: t.icon, keywords: t.keywords, onSelect: () => { const text = t.copyText || "var(" + t.label + ")"; copy(text, "Copied token", text); go(t.to); } })) },
       { label: "Icons", limit: 10, idleLimit: 3, items: meta.icons.map((n) => ({ id: "i" + n, label: n, hint: "Icon", icon: n, keywords: "icon", onSelect: () => { copy("<Icon name=\"" + n + "\" />", "Copied icon", n); go("icons?q=" + encodeURIComponent(n)); } })) }
     ];

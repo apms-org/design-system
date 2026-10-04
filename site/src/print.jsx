@@ -128,7 +128,7 @@ function Cover() {
         <p className="pp-cover-lede">Tokens, components, guidelines and patterns for APM, the local, zero-knowledge password manager. Every specimen in this document is the real component, rendered from the same bundle the app ships.</p>
       </div>
       <div className="pp-cover-foot">
-        <span>{meta.components.length} components · {meta.tokens.color.tokens.length} color tokens · {meta.icons.length} icons · light and dark</span>
+        <span>{meta.components.length} components · {meta.tokens.color.tokens.length} color tokens · {meta.icons.length} icons · the browser extension · light and dark</span>
         <span className="mono-small">{meta.built}</span>
       </div>
     </div>

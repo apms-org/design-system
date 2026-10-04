@@ -77,6 +77,7 @@ export function copyStatic(dev) {
   copyDir(path.join(root, "fonts"), path.join(dist, "fonts"), (n) => /\.woff2$/.test(n));
   copy(path.join(root, "components", "bundle.css"), path.join(dist, "ds.css"));
   copy(path.join(root, "components", "bundle.js"), path.join(dist, "ds.js"));
+  copy(path.join(root, "patterns", "extension.css"), path.join(dist, "extension.css"));
   copy(path.join(root, "vendor", "react.production.min.js"), path.join(dist, "react.js"));
   copy(path.join(root, "vendor", "react-dom.production.min.js"), path.join(dist, "react-dom.js"));
   const css = ["site.css", "code.css", "patterns.css", "print.css"].map((n) => path.join(site, "css", n)).filter((p) => fs.existsSync(p)).map((p) => fs.readFileSync(p, "utf8")).join("\n");
@@ -90,6 +91,7 @@ export function copyStatic(dev) {
   copy(path.join(root, "components", "bundle.css"), path.join(dl, "bundle.css"));
   copy(path.join(root, "components", "bundle.js"), path.join(dl, "bundle.js"));
   copy(path.join(root, "components", "index.d.ts"), path.join(dl, "index.d.ts"));
+  copy(path.join(root, "patterns", "extension.css"), path.join(dl, "extension.css"));
   copy(path.join(root, "README.md"), path.join(dl, "README.md"));
   copyDir(path.join(root, "fonts"), path.join(dl, "fonts"), (n) => /\.woff2$/.test(n));
   fs.writeFileSync(path.join(dist, "index.html"), html("site", dev));

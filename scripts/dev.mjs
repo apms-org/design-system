@@ -44,7 +44,7 @@ async function main() {
   });
   let timer = null;
   const refresh = () => { clearTimeout(timer); timer = setTimeout(() => { try { copyStatic(true); reload(); } catch (err) { console.error(err.message); } }, 120); };
-  for (const p of [path.join(site, "css"), path.join(site, "index.html"), path.join(root, "tokens.css"), path.join(root, "components"), path.join(root, "assets"), path.join(root, "fonts")]) {
+  for (const p of [path.join(site, "css"), path.join(site, "index.html"), path.join(root, "tokens.css"), path.join(root, "components"), path.join(root, "patterns"), path.join(root, "assets"), path.join(root, "fonts")]) {
     if (fs.existsSync(p)) fs.watch(p, { recursive: fs.statSync(p).isDirectory() }, refresh);
   }
   server.on("error", (err) => { console.error(err.code === "EADDRINUSE" ? "Port " + port + " is busy. Stop the other server or run with PORT=4419 npm run dev." : err.message); process.exit(1); });

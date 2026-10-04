@@ -1,0 +1,13 @@
+<!-- @dsCard group="Display" height=120 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>StatGroup</title></head>
+<body>
+<div id="root" style="display:flex;flex-direction:column;gap:12px;padding:20px;max-width:720px"></div>
+<script>
+var A=window.APM,h=React.createElement;
+function Demo(){var s=React.useState('');var f=function(k){return function(){s[1](s[0]===k?'':k);};};return h(A.StatGroup,{label:'Import summary',items:[{key:'new',label:'New',value:120,active:s[0]==='new',onClick:f('new')},{key:'same',label:'Already in vault',value:8,active:s[0]==='same',onClick:f('same')},{key:'conflict',label:'Conflicts',value:6,tone:'warning',icon:'triangle-alert',active:s[0]==='conflict',onClick:f('conflict')},{key:'bad',label:"Can't import",value:3,tone:'danger',icon:'circle-x',active:s[0]==='bad',onClick:f('bad')},{key:'pk',label:'Passkeys',value:21,tone:'accent',icon:'fingerprint'}]});}
+ReactDOM.createRoot(document.getElementById('root')).render(h(Demo));
+</script>
+</body>
+</html>

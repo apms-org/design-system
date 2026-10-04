@@ -4,7 +4,7 @@ import path from "node:path";
 const read = (p) => fs.readFileSync(p, "utf8");
 
 export function watchedFiles(root) {
-  const out = [path.join(root, "README.md"), path.join(root, "tokens.json"), path.join(root, "tokens.css"), path.join(root, "components", "index.d.ts"), path.join(root, "components", "bundle.css"), path.join(root, "package.json")];
+  const out = [path.join(root, "README.md"), path.join(root, "tokens.json"), path.join(root, "tokens.css"), path.join(root, "components", "index.d.ts"), path.join(root, "components", "bundle.css"), path.join(root, "patterns", "extension.css"), path.join(root, "package.json")];
   const comp = path.join(root, "components");
   for (const name of fs.readdirSync(comp)) {
     const dir = path.join(comp, name);
@@ -227,6 +227,7 @@ const DOWNLOADS = [
   ["bundle.js", "components/bundle.js", "package", "All components as window.APM. Needs React 18 on the page."],
   ["bundle.css", "components/bundle.css", "file-text", "Component styles and the motion tokens."],
   ["index.d.ts", "components/index.d.ts", "file-text", "TypeScript types for every component and its props."],
+  ["extension.css", "patterns/extension.css", "puzzle", "The browser extension's surfaces: popup, field menu, prompts, passkey sheets and options page."],
   ["README.md", "README.md", "book-open", "The written guidelines this site is built from."],
   ["fonts/Geist-Variable.woff2", "fonts/Geist-Variable.woff2", "file-archive", "Geist, variable weight 100 to 900."],
   ["fonts/GeistMono-Variable.woff2", "fonts/GeistMono-Variable.woff2", "file-archive", "Geist Mono, variable weight 100 to 900."]

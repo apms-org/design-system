@@ -1,0 +1,13 @@
+<!-- @dsCard group="Navigation" height=96 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Stepper</title></head>
+<body>
+<div id="root" style="display:flex;flex-direction:column;gap:12px;padding:20px;max-width:560px"></div>
+<script>
+var A=window.APM,h=React.createElement;
+function Demo(){var s=React.useState('review');return h(A.Stepper,{items:[{value:'source',label:'Source'},{value:'review',label:'Review'},{value:'done',label:'Done'}],value:s[0],onChange:s[1]});}
+ReactDOM.createRoot(document.getElementById('root')).render(h(Demo));
+</script>
+</body>
+</html>

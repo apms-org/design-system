@@ -75,3 +75,33 @@
   .ds-stage{padding:20px 12px!important}
   .ds-stage .apm-sf{grid-template-columns:92px minmax(0,1fr) auto;padding-left:12px}
 }
+@media (max-width:860px){
+  .ds-ext-keys{grid-template-columns:minmax(0,1fr)}
+  .ds-ext-opt .opt:not(.is-narrow){grid-template-columns:minmax(0,1fr)}
+  .ds-ext-opt .opt:not(.is-narrow) .opt-side{display:none}
+  .ds-ext-opt .opt-main{padding:var(--space-5) var(--space-4) var(--space-8)}
+  .ds-ext-opt .bridge{grid-template-columns:1fr}
+  .ds-ext-opt .bridge-wire{flex-direction:row;justify-content:center}
+  .ds-ext-opt .bridge-wire i{width:2px;height:20px}
+  .ds-ext-opt .site-add{grid-template-columns:minmax(0,1fr)}
+  .ds-ext-opt .welcome-top{flex-direction:column}
+  .ds-ext-site{padding:32px 24px}
+  .pat-gbridge-node{width:76px}
+  .pat-gbridge-wire{min-width:20px}
+  .pat-gbridge-wire span{display:none}
+}
+@media (max-width:600px){
+  .ds-ext-page .ds-ext-site{display:none}
+  .ds-ext-page{height:auto;min-height:420px}
+  .ds-ext-page .ds-ext-corner{position:static;align-items:center;padding:12px 0}
+  .ds-ext-page .ds-ext-scrim{position:relative;inset:auto;min-height:520px}
+}
+@media (max-width:480px){
+  .ds-ext-popup{zoom:.85}
+  .ds-ext-frame.is-note{zoom:.9}
+  .ds-ext-frame.is-sheet{zoom:.8}
+  .ds-ext-themed{padding:12px 8px}
+  .ds-ext-page .ds-ext-frame.is-note{zoom:.86}
+  .ds-ext-opt .apm-setting{flex-wrap:wrap}
+  .ds-ext-opt .apm-setting-text{flex:1 1 180px}
+}

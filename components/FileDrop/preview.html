@@ -1,0 +1,12 @@
+<!-- @dsCard group="Inputs" height=190 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>FileDrop</title></head>
+<body>
+<div id="root" style="display:flex;flex-direction:column;gap:12px;padding:20px;max-width:560px"></div>
+<script>
+var A=window.APM,h=React.createElement;
+ReactDOM.createRoot(document.getElementById('root')).render(h(React.Fragment,null,h(A.FileDrop,{hint:'Bitwarden .json, 1Password .1pux, KeePass .xml or a browser .csv',onChoose:function(){}}),h(A.FileDrop,{file:{name:'bitwarden_export.json',size:74047},onChoose:function(){}})));
+</script>
+</body>
+</html>

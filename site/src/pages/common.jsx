@@ -54,7 +54,7 @@ export function specBlock(ex, extra = {}) {
     web: s.web,
     print: s.print,
     node: (
-      <Spec title={ex.title} caption={s.caption} code={ex.code} height={s.height} align={s.align} justify={s.justify} pad={s.pad} stage={s.stage} theme={extra.theme || s.theme} printCode={extra.printCode} className={s.overflow ? "is-overflow" : ""}>
+      <Spec title={ex.title} caption={s.caption} code={ex.code} height={s.height} align={s.align} justify={s.justify} pad={s.pad} stage={s.stage} flip={s.flip} theme={extra.theme || s.theme} printCode={extra.printCode} className={s.overflow ? "is-overflow" : ""}>
         <ex.Comp />
       </Spec>
     )
