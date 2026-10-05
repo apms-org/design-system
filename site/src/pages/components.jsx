@@ -8,8 +8,8 @@ import { readmeBullets, RuleList, exampleBlocks, notesFor, DoDont, PropsTable } 
 
 const A = window.APM;
 
-export const GROUPS = ["Actions", "Inputs", "Navigation", "Vault", "Display", "Overlays", "Foundations", "Brand"];
-const GROUP_ICONS = { Actions: "mouse-pointer-click", Inputs: "square-pen", Navigation: "panel-left", Vault: "lock-keyhole", Display: "layout-grid", Overlays: "layers", Foundations: "palette", Brand: "award" };
+export const GROUPS = ["Actions", "Inputs", "Navigation", "Layout", "Vault", "Display", "Overlays", "Foundations", "Brand"];
+const GROUP_ICONS = { Actions: "mouse-pointer-click", Inputs: "square-pen", Navigation: "panel-left", Layout: "list", Vault: "lock-keyhole", Display: "layout-grid", Overlays: "layers", Foundations: "palette", Brand: "award" };
 
 export const grouped = GROUPS.map((g) => ({ group: g, items: meta.components.filter((c) => c.group === g) })).filter((g) => g.items.length);
 export const ordered = grouped.flatMap((g) => g.items);

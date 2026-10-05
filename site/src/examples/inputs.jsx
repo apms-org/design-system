@@ -1,6 +1,6 @@
 import { Row, Stack, Grid } from "../lib/ui.jsx";
 
-const { Input, PasswordInput, SearchField, Select, Textarea, Checkbox, Switch, SegmentedControl, Slider, IconButton, Kbd } = window.APM;
+const { Input, PasswordInput, SearchField, Select, Textarea, Checkbox, Switch, SegmentedControl, Slider, IconButton, Kbd, Chip, Hint, ChoiceGroup, ChoiceTile, Badge, Icon } = window.APM;
 const { useState } = React;
 
 export function Input_Basic() {
@@ -38,7 +38,7 @@ export function PasswordInput_States() {
     <Grid cols={2}>
       <PasswordInput />
       <PasswordInput defaultValue="correct horse battery" hint="Caps Lock is detected as you type." />
-      <PasswordInput defaultValue="hunter2" error="Incorrect password. 4 attempts left before a 30 second wait." invalid />
+      <PasswordInput defaultValue="hunter2" error="Incorrect password. 4 attempts left before a wait." invalid />
       <PasswordInput defaultValue="correct horse battery" busy />
     </Grid>
   );
@@ -130,6 +130,86 @@ export function Slider_Length() {
   );
 }
 
+export function Chip_Filters() {
+  const [kind, setKind] = useState("all");
+  return (
+    <Row gap={6}>
+      {["all", "ADD", "EDIT", "GET", "DEL", "MERGE"].map((x) => <Chip key={x} selected={kind === x} onClick={() => setKind(x)}>{x === "all" ? "All" : x}</Chip>)}
+    </Row>
+  );
+}
+
+export function Chip_Presets() {
+  return (
+    <Row gap={6} align="center">
+      <span className="small-medium">Start from</span>
+      <Chip>Browse only</Chip>
+      <Chip>Read secrets</Chip>
+      <Chip>Assistant</Chip>
+      <Chip>Everything</Chip>
+    </Row>
+  );
+}
+
+export function Hint_Tones() {
+  return (
+    <Stack gap={10} width={460}>
+      <Hint>A private repository you own.</Hint>
+      <Hint tone="warning" icon="info">Caps Lock is on</Hint>
+      <Hint tone="danger" icon="triangle-alert">That file could not be read as an APM vault.</Hint>
+    </Stack>
+  );
+}
+
+export function ChoiceTile_Tiles() {
+  const [src, setSrc] = useState("bitwarden");
+  return (
+    <Stack width={560}>
+      <ChoiceGroup label="Import from" value={src} onChange={setSrc}>
+        <ChoiceTile value="bitwarden" tile={{ name: "Bitwarden" }} title="Bitwarden" description="Tools > Export vault > .json. Passkeys come along." meta={<><Badge size="sm">Passkeys</Badge><Badge size="sm">Files</Badge></>} />
+        <ChoiceTile value="csv" icon="file-text" title="CSV" description="Any app's CSV export. You map the columns." />
+      </ChoiceGroup>
+    </Stack>
+  );
+}
+
+export function ChoiceTile_List() {
+  const [profile, setProfile] = useState("hardened");
+  return (
+    <Stack width={560}>
+      <ChoiceGroup columns={1} label="Encryption profile" value={profile} onChange={setProfile}>
+        <ChoiceTile variant="list" value="standard" icon="shield" title="Standard" description="Fast unlocks on any machine. Strong against offline guessing." meta="Argon2id · t=3 · 64 MiB · p=2 · unlock about 0.3s" />
+        <ChoiceTile variant="list" value="hardened" icon="shield-check" title="Hardened" badge={<Badge tone="accent" size="sm">Recommended</Badge>} description="Four times the memory cost. Recommended for most Macs." meta="Argon2id · t=5 · 256 MiB · p=4 · unlock about 1s" />
+        <ChoiceTile variant="list" value="paranoid" icon="lock-keyhole" title="Paranoid" description="The highest cost APM offers. Each guess needs 512 MiB." meta="Argon2id · t=6 · 512 MiB · p=4 · unlock about 2s" />
+      </ChoiceGroup>
+    </Stack>
+  );
+}
+
+export function ChoiceTile_Compact() {
+  const [dest, setDest] = useState("");
+  const dot = (c) => <span style={{ width: 10, height: 10, borderRadius: 999, background: c, flex: "none" }} />;
+  return (
+    <Stack width={360}>
+      <ChoiceGroup columns={1} compact label="Space" value={dest} onChange={setDest}>
+        <ChoiceTile variant="list" compact value="" leading={dot("var(--text-tertiary)")} title="Default" trailing={<span className="caption">14</span>} />
+        <ChoiceTile variant="list" compact value="Work" leading={dot("var(--accent)")} title="Work" trailing={<span className="caption">6</span>} />
+        <ChoiceTile variant="list" compact value="Family" leading={dot("var(--success)")} title="Family" trailing={<span className="caption">3</span>} />
+      </ChoiceGroup>
+    </Stack>
+  );
+}
+
+export function ChoiceTile_Arrows() {
+  return (
+    <Stack gap={8} width={420}>
+      <ChoiceTile variant="list" arrow icon="plus" title="Create a new vault" description="Set a master password and pick how hard the key is to crack." />
+      <ChoiceTile variant="list" arrow icon="folder-open" title="Open an existing vault" description="Choose a vault.dat made by pm or another Mac." />
+      <ChoiceTile variant="list" arrow icon="cloud-upload" title="Restore from cloud" description="Download your vault from Google Drive, GitHub or Dropbox." />
+    </Stack>
+  );
+}
+
 export const specs = {
   Input_Basic: { caption: "Every field has a `label` or a clear placeholder. Helper text goes in `hint`." },
   Input_Sizes: { caption: "`sm` 28px, `md` 32px, `lg` 40px.", span: "half" },
@@ -142,10 +222,25 @@ export const specs = {
   Switch_States: { caption: "Applies immediately. On is ink.", span: "half" },
   SegmentedControl_Text: { caption: "Two to five options, short labels.", span: "half" },
   SegmentedControl_Icons: { caption: "Add icons only when every option has one.", span: "half" },
-  Slider_Length: { caption: "Always show the current value next to it in `mono`.", span: "half" }
+  Slider_Length: { caption: "Always show the current value next to it in `mono`.", span: "half" },
+  Chip_Filters: { caption: "Filter a log by kind. The selected chip turns ink.", span: "half" },
+  Chip_Presets: { caption: "Preset chips act once and have no selected state.", span: "half" },
+  Hint_Tones: { caption: "Help, a warning, and an error with the fix. Danger hints are announced." },
+  ChoiceTile_Tiles: { caption: "Two columns of tiles in a `ChoiceGroup`: where an import comes from." },
+  ChoiceTile_List: { caption: "`variant=\"list\"` in one column: the encryption profile, with the numbers in `meta`.", height: 340 },
+  ChoiceTile_Compact: { caption: "`compact` one-line rows with a `leading` dot and a `trailing` count: moving items to a space.", span: "half", height: 240 },
+  ChoiceTile_Arrows: { caption: "`arrow` tiles lead to the next screen. They are buttons, not a radio group.", span: "half", height: 300 }
 };
 
 export const notes = {
+  Chip: {
+    do: ["Keep labels to one or two words.", "Set `selected` on filters only."],
+    dont: ["Use chips for two to four exclusive views; use `SegmentedControl`.", "Mix filter and preset chips in one row."]
+  },
+  ChoiceTile: {
+    do: ["Put the numbers that decide the choice in `meta`.", "Use `arrow` tiles for the next step, outside any `ChoiceGroup`."],
+    dont: ["Use a tile for an on and off setting; use `Switch`.", "Show third-party logos in the tile."]
+  },
   Input: {
     do: ["Give every field a `label`, or a placeholder that names the value.", "Put the fix in the hint when `invalid`: what is wrong and what to type."],
     dont: ["Use the placeholder as the only label on forms with several fields.", "Show an error before the person has finished typing."]

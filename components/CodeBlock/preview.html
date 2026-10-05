@@ -1,0 +1,13 @@
+<!-- @dsCard group="Display" height=200 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>CodeBlock</title></head>
+<body>
+<div id="root" style="display:flex;flex-direction:column;gap:12px;padding:20px;max-width:560px"></div>
+<script>
+var A=window.APM,h=React.createElement;
+function Demo(){return h(A.CodeBlock,{label:'Manual setup · any MCP client',maxHeight:180},JSON.stringify({mcpServers:{apm:{command:'pm',args:['mcp','serve','--token','<your token>']}}},null,2));}
+ReactDOM.createRoot(document.getElementById('root')).render(h(Demo));
+</script>
+</body>
+</html>

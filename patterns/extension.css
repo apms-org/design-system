@@ -2,6 +2,15 @@
 :where(.px, .im, .pr, .opt) :where(h1, h2, p) { margin: 0; }
 :where(.px, .im, .pr, .opt) :where(button) { font-family: inherit; }
 
+:where(.page-popup, .page-frame, .page-options), :where(.page-popup, .page-frame, .page-options) body { margin: 0; background: var(--bg); color: var(--text); }
+:where(.page-popup, .page-frame, .page-options) body { font-family: var(--font-sans); font-size: 14px; line-height: 20px; -webkit-font-smoothing: antialiased; }
+:where(.page-popup, .page-frame, .page-options) :where(button) { font-family: inherit; }
+:where(.page-popup, .page-frame, .page-options) :where(h1, h2, p) { margin: 0; }
+.page-popup, .page-popup body { width: 380px; height: 580px; overflow: hidden; }
+.page-popup #root { height: 100%; }
+.page-frame, .page-frame body { background: var(--surface); overflow: hidden; }
+.page-options, .page-options body, .page-options #root { height: 100%; }
+
 .muted { color: var(--text-tertiary); }
 .center { text-align: center; }
 .clr .d { color: var(--accent); }
@@ -296,5 +305,7 @@ a.site-link:hover { text-decoration: underline; text-underline-offset: 3px; }
   .boot-mark, .px-body, .px-sub, .toast-slot > *, .vgroup .apm-row, .gen-value, .pair-code > span, .im-gen-v, .bridge-wire.is-live i, .welcome { animation: none; }
 
   .space-btn, .match-main, .code-row, .pick, .site-row .apm-iconbtn { transition: none; }
+
+  :where(.page-popup, .page-frame, .page-options) *, :where(.page-popup, .page-frame, .page-options) *::before, :where(.page-popup, .page-frame, .page-options) *::after { animation: none !important; transition: none !important; }
 
 }

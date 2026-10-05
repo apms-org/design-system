@@ -23,13 +23,27 @@ Real copy from the product:
 | Where | Copy |
 | --- | --- |
 | Lock headline | Unlock your vault |
-| Lock idle line | Locked automatically after 15 minutes idle |
-| Unlock progress | Deriving key · Argon2id · 256 MiB |
-| Wrong password | Incorrect password. 4 attempts left before a 30 second wait. |
+| Lock idle line | Locked after a period of inactivity |
+| Unlock progress | Deriving key · Argon2id · t=5 · 256 MiB · p=4 |
+| Wrong password | Incorrect password. 4 attempts left before a wait. |
+| Touch ID button | Unlock with Touch ID, then Touch the sensor while it waits |
+| Touch ID, fingerprint rejected | Touch ID did not recognise that fingerprint. Enter your master password. |
 | Copy feedback | Copied password · Clears in 30s |
-| Watchtower | Reused password. The same password is saved in Notion and Spotify. If one leaks, all three are exposed. |
-| Empty search | No matches for "stripe". Search looks at names, usernames, types and tags. |
-| Extension, not connected | APM isn't connected. Open the APM app, or link this browser once with pm extension link. |
+| Watchtower | Reused password. Also used by Notion, Spotify. |
+| Empty search | No matches for "stripe". Search looks at names, usernames, websites, types and spaces. |
+| Read-only, newer vault | Read-only. This vault was updated by a newer pm. Update APM to edit it. |
+| Read-only session | Read-only until 3:45 PM |
+| AI requests, sidebar | 2 AI requests waiting for approval |
+| AI request | Claude Desktop wants to edit an item · 2m ago. Reject, Approve. |
+| AI request, rejected | Rejected · Claude Desktop was told no. |
+| AI tool group | Utility: Password generation and pending requests. |
+| pm command, missing | Not installed. Adds pm to your terminal, linked to this app, so updating APM updates it too. Install pm |
+| pm command, older | pm 11.2.0 is installed at /usr/local/bin/pm. This app has 12.0.0. Update pm |
+| pm command, current | pm 12.0.0 at /usr/local/bin/pm. Up to date |
+| pm command, installed | Installed the pm command · Open a new terminal window and run pm. |
+| Extension pairing | Connect Chrome to APM? The APM extension wants to fill logins, codes and passkeys from this vault. Deny, Connect. |
+| Pairing code check | Check that the extension shows the same code. Only connect browsers you use. |
+| Extension, not connected | APM isn't connected. Open the APM app, or run pm extension link once. |
 | Field menu, locked | Unlock from the toolbar to fill. APM never asks for your master password inside a web page. |
 | Save prompt | Save login for github.com? You just signed in. APM can fill it next time. |
 | Fill on another site | This login is saved for a different website. Only continue if you trust this page. |
@@ -63,6 +77,8 @@ Real copy from the product:
 - Sidebar rows are `control-sm` tall with `radius-sm`. List rows are `row` tall with `radius-md`, inset `space-2` from the pane edge. Field rows are at least 48px with a 136px label column.
 - Group list items by recency under sticky headers ("Today", "This week", "Earlier") with the count on the right.
 - The detail column caps at 720px so long values stay readable on wide windows.
+- Settings is two panes: a 232px `bg-subtle` nav with a search field and uppercase group labels, and a 720px column with 52px above it. Each page is a `PageHeader` followed by `Card`s 16px apart.
+- Top-level views that are not the vault (Watchtower, History, Authenticator) scroll as one page: a `PageHeader` with `size="lg"`, 28px below it, in a 900px column (1040px for Authenticator).
 
 ## Shape and elevation
 
@@ -86,6 +102,7 @@ Motion confirms that something happened. It never decorates.
 
 - Press: buttons scale to 0.97, icon buttons to 0.92.
 - Unlock: the field locks, a 2px bar fills while the key derives, then the bird flies up and out of its tile as the vault fades in.
+- Touch ID on the lock screen runs inside the "Unlock with Touch ID" button, like the macOS lock screen: while the window has focus macOS draws its own fingerprint glyph over the button's icon and the label reads "Touch the sensor". There is no system dialog. After a rejected fingerprint it stays off until you press the button again. Where inline Touch ID is not available, the system dialog is offered once per launch.
 - Wrong password: a 420ms damped shake on the field, the error line fades down.
 - One-time codes: each new code rises 5px out of a slight blur. The ring drains continuously and turns `warning` for the last 7 seconds.
 - Reveal: the value sharpens out of a 3px blur.
@@ -116,10 +133,19 @@ Mount the real components from the bundle (`window.APM`). Each card in the index
 - Moving data in and out is one flow in three steps, shown with `Stepper`: Source, Review, Done. `ChoiceTile` in a `ChoiceGroup` picks the source app or export format, and `FileDrop` takes the file.
 - Review before you write. A `StatGroup` counts what a file brings (New, Already in vault, Conflicts, Possible duplicates, Can't import, Passkeys), and each count filters the list. Every item is a `ReviewRow` whose trailing control says what happens to it (Add, Skip, Merge, Replace, Keep both). Expanding a row shows a `CompareTable` of your vault against the file, secrets masked until you reveal them.
 - An import never overwrites silently. Items whose values clash stay on Skip until you choose, a merge only fills gaps, and the result offers "Undo import".
+- Settings pages are a `PageHeader` and a stack of `Card`s. Settings that change something go in `SettingRow`s inside a `flush` card; live state on the right is a `Status` ("Up to date", "Newer than APM"). Read-only facts go in a `KeyValueList` of `KeyValue` rows.
+- Every view and card can show the `pm` command that does the same thing, as a `Command`. "Show pm commands" in Settings, Appearance hides them all.
+- `ChoiceTile` with `variant="list"` picks from a short stack (encryption profile, sync provider, space). With `arrow` it leads to the next screen (Welcome).
+- `Stepper` with `layout="spread"` runs flows that own the window: recovering a vault, restoring from cloud. `StepList` numbers instructions you follow once, and a `CodeBlock` holds config to paste.
+- Errors for a whole form or dialog are a `Hint` with `tone="danger"`. Filters over a log are `Chip`s. Watchtower's health score is a `Meter`. Inline text actions ("Add some", "Choose another file") are `Button` with `variant="link"`.
+- Anything an AI assistant wants to change waits for you. Pending requests sit at the top of Settings, AI access as raised cards with a draining expiry bar, the client, the operation in `mono-small` and the fields it would write (secrets cut to 8 characters). The buttons are Reject and Approve, `danger` for a delete. The sidebar shows how many are waiting.
+- When the vault is read-only, say why and until when in the sidebar foot: a `warning-soft` note ("Read-only until 3:45 PM"), or, for a vault written by a newer pm, "Read-only. This vault was updated by a newer pm. Update APM to edit it." Edit controls stay visible but disabled.
+- The pm command row in Settings, Developer checks the `pm` your terminal runs each time it opens: "Install pm" when there is none, "Update pm" when it is older than the app, a copyable `brew upgrade pm` when Homebrew owns it, and a `Status` ("Up to date", "Newer than APM") otherwise.
+- Connecting the browser extension asks in the app first: a small dialog with the app icon, "Connect Chrome to APM?", the 6-digit pairing code split 3 and 3 in large mono, a note to check the extension shows the same code, the expiry in the foot, and Deny and Connect.
 
 ## Browser extension
 
-APM for Chrome fills logins, one-time codes and passkeys from the vault through the APM app on the same computer. It never opens `vault.dat` and never holds the master password or a private key. Its surfaces are built from the same tokens and components, plus the classes in `patterns/extension.css`, which the extension copies with `npm run ds:sync`.
+APM for Chrome fills logins, one-time codes and passkeys from the vault through the APM app on the same computer, or through `pm` when the app is closed. It never opens `vault.dat` and never holds the master password or a private key. Its surfaces are built from the same tokens and components, plus the classes in `patterns/extension.css`, which the extension copies with `npm run ds:sync`.
 
 | Surface | Root class | Size | Where it lives |
 | --- | --- | --- | --- |
@@ -131,14 +157,14 @@ APM for Chrome fills logins, one-time codes and passkeys from the vault through 
 | Options page | `.opt` | A full tab, one column under 720px | The extension's options tab |
 
 - **Never ask for the master password inside a web page.** A page can draw a fake prompt, but it cannot draw inside the toolbar. When APM is locked, the field menu and the passkey sheets say so and send you to the toolbar popup or Touch ID.
-- **In-page UI runs only in extension frames.** The field menu, the notes, the sheets and the toasts are extension pages in an iframe inside a closed shadow root. The page cannot read, restyle or click into them, and the extension never adds its own markup or styles to the page.
+- **In-page UI runs only in extension frames.** The field menu, the notes, the sheets and the toasts are extension pages in an iframe inside a closed shadow root. The page cannot read, restyle or click into them, and the extension never adds its own markup or styles to the page, except the field icon, a button in its own closed shadow root.
 - **Prompts sit top-right, sheets are centered.** Save and update notes and toasts wait in the top-right corner and never cover the form. A passkey sheet answers a request the page just made, so it centers over an `overlay` scrim. Esc, the close button or "Not now" dismiss every one of them.
-- **Keyboard first.** In the field menu, ↑ and ↓ move the highlight, Enter fills it and Esc closes the menu, while focus stays in the page's field. The commands are `Alt+Shift+A` to open APM, `Alt+Shift+F` to fill the best login, `Alt+Shift+G` to fill a strong password and `Alt+Shift+L` to lock. Show them with `Kbd` as ⌥ ⇧ A on a Mac.
+- **Keyboard first.** In the field menu, ↑ and ↓ move the highlight, Enter fills it and Esc closes the menu, while focus stays in the page's field. The commands are `Alt+Shift+A` to open APM, `Alt+Shift+F` to fill the best login, `Alt+Shift+G` to fill a strong password and `Alt+Shift+L` to lock. Show them with `Kbd` as ⌥ ⇧ A on a Mac. "Copy the one-time code" has no default key.
 - **Works without the app, after one link.** With the app closed, the extension talks to `pm` through the browser's native messaging. Wherever the extension asks you to connect, show the next step as a `Command` (`pm extension link`), with `block` in the popup. Say which side holds the key: "the APM app" or "pm on this computer".
 - **Name the site, always.** The menu head shows the host in `mono-small`, and every prompt puts it in the title ("Save login for github.com?", "Sign in to github.com"), so a frame on the wrong page is obvious.
 - **One job per surface.** The popup finds, copies and edits. The menu fills. A note saves. A sheet creates or signs with a passkey. Anything else links to the popup instead of growing the in-page UI.
 - **Ask before filling on another site.** A login fills only on its own websites. On any other page the popup asks first ("Fill once", "Fill and remember"), and "Fill and remember" adds the site to the login.
-- **Copy is short and exact.** Titles ask a question when you decide ("Update the password for maya@example.com?") and state a fact when you cannot act ("APM is locked", "Not filling here"). Buttons name the result: Fill, Save, Update, Save passkey, Sign in, "Use this browser instead". Errors say how to fix it: "APM isn't connected. Open the APM app, or link this browser once with pm extension link."
+- **Copy is short and exact.** Titles ask a question when you decide ("Update the password for maya@example.com?") and state a fact when you cannot act ("APM is locked", "Not filling here"). Buttons name the result: Fill, Save, Update, Save passkey, Sign in, "Use this browser instead". Errors say how to fix it: "APM isn't connected. Open the APM app, or run pm extension link once."
 
 ## Accessibility
 

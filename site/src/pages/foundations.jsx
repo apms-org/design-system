@@ -385,7 +385,7 @@ function ShakeDemo() {
   const [n, setN] = useState(0);
   return (
     <div className="ds-try">
-      <A.PasswordInput defaultValue="hunter2" shakeKey={n} error={n ? "Incorrect password. 4 attempts left before a 30 second wait." : null} invalid={n > 0} />
+      <A.PasswordInput defaultValue="hunter2" shakeKey={n} error={n ? "Incorrect password. 4 attempts left before a wait." : null} invalid={n > 0} />
       <A.Button size="sm" icon="rotate-ccw" onClick={() => setN(n + 1)}>Try a wrong password</A.Button>
     </div>
   );

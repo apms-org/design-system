@@ -1,0 +1,13 @@
+<!-- @dsCard group="Display" height=200 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>StepList</title></head>
+<body>
+<div id="root" style="display:flex;flex-direction:column;gap:12px;padding:20px;max-width:560px"></div>
+<script>
+var A=window.APM,h=React.createElement;
+function Demo(){return h(A.StepList,{items:['Install the APM extension in Chrome, Arc or Brave.',h('span',null,'Open it and choose ',h('b',null,'Connect'),'.'),h('span',null,'Check the code matches, then run:',h(A.CodeBlock,{copy:'pm extension link'},'pm extension link'))]});}
+ReactDOM.createRoot(document.getElementById('root')).render(h(Demo));
+</script>
+</body>
+</html>

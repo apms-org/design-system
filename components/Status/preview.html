@@ -1,0 +1,13 @@
+<!-- @dsCard group="Display" height=88 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Status</title></head>
+<body>
+<div id="root" style="display:flex;flex-direction:column;gap:12px;padding:20px;max-width:560px"></div>
+<script>
+var A=window.APM,h=React.createElement;
+function Demo(){return h('div',{style:{display:'flex',gap:20,flexWrap:'wrap'}},h(A.Status,{tone:'success'},'Up to date'),h(A.Status,{tone:'warning'},'Newer than APM'),h(A.Status,{tone:'danger'},'Missing'),h(A.Status,{tone:'accent',pulse:true},'2 waiting for you'),h(A.Status,null,'Off'));}
+ReactDOM.createRoot(document.getElementById('root')).render(h(Demo));
+</script>
+</body>
+</html>

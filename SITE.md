@@ -23,7 +23,7 @@ The design system stands alone. Its only dependencies are `rolldown` (the bundle
 
 The desktop app keeps its own copy of `tokens.css`, `themes.js`, `components/bundle.css`, `components/bundle.js`, `components/index.d.ts` and `fonts/` in `GUI/vendor/design-system`, so it builds without this folder. Change a token or a component here, then run `npm run ds:sync` in the app and commit its vendor folder. Screens read components from `window.APM`.
 
-The browser extension keeps the same tokens, bundle, types, fonts and React builds in `extension/vendor/design-system`, plus `patterns/extension.css`, which styles every extension surface: the toolbar popup, the field menu, the save and update notes, the toasts, the passkey sheets and the options page. Its own `src/ui/css/ui.css` only sizes the pages. Change a surface in `patterns/extension.css`, then run `npm run ds:sync` and `npm run build` in `extension/`. The Browser extension page (`#/extension`) renders every surface from the same file.
+The browser extension keeps the same tokens, bundle, types, fonts and React builds in `extension/vendor/design-system`, plus `patterns/extension.css`, which styles every extension surface: the toolbar popup, the field menu, the save and update notes, the toasts, the passkey sheets and the options page. The same file sizes the pages through the `page-popup`, `page-frame` and `page-options` class on each page's `html`, so the extension needs no stylesheet of its own; only the field icon keeps a few inline styles, because it lives in the page's document. Change a surface in `patterns/extension.css`, then run `npm run ds:sync` and `npm run build` in `extension/`. The Browser extension page (`#/extension`) renders every surface from the same file.
 
 ## Layout
 

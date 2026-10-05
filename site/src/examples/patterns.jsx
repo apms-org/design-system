@@ -1,19 +1,17 @@
-const { Mark, PasswordInput, Button, Icon, NavItem, SearchField, ItemRow, ItemIcon, Badge, FieldGroup, SecretField, StrengthMeter, Toast, Kbd, copyText } = window.APM;
-const { useState } = React;
+const { Mark, PasswordInput, Button, Icon, NavItem, SearchField, ItemRow, ItemIcon, Badge, FieldGroup, SecretField, StrengthMeter, Toast, Kbd, Command, PageHeader, Card, SettingRow, Status, copyText } = window.APM;
 
 export function Pattern_LockCard() {
   return (
     <div className="pat-lock">
       <Mark tile size={64} />
       <h1 className="display pat-lock-title">Unlock your vault</h1>
-      <button type="button" className="pat-lock-vault"><span className="pat-dot" />Personal<Icon name="chevrons-up-down" size={14} /></button>
+      <button type="button" className="pat-lock-vault"><span className="pat-dot" />Personal · 21 items</button>
       <div className="pat-lock-form">
         <PasswordInput />
         <div className="pat-lock-or">or</div>
         <Button size="lg" block icon="fingerprint">Unlock with Touch ID</Button>
       </div>
-      <div className="pat-lock-idle"><Icon name="clock" size={13} />Locked automatically after 15 minutes idle</div>
-      <div className="mono-small pat-lock-cipher">XChaCha20-Poly1305 · Argon2id</div>
+      <div className="pat-lock-idle"><Icon name="clock" size={13} />Locked after a period of inactivity</div>
     </div>
   );
 }
@@ -88,15 +86,20 @@ export function Pattern_ToastReceipt() {
 }
 
 export function Pattern_CliChip() {
-  const [done, setDone] = useState(false);
-  const cmd = "pm get \"GitHub\"";
-  const run = () => { copyText(cmd); setDone(true); setTimeout(() => setDone(false), 1200); };
+  return <Command cmd={'pm get "GitHub"'} label="Copy the pm command" />;
+}
+
+export function Pattern_SettingsPage() {
   return (
-    <button type="button" className={"cli" + (done ? " is-done" : "")} title="Copy the pm command" onClick={run}>
-      <span className="cli-prompt">$</span>
-      <span className="cli-cmd">{cmd}</span>
-      <Icon name={done ? "check" : "copy"} size={11} />
-    </button>
+    <div className="pat-settings">
+      <PageHeader title="Developer" description="Put secrets into your shell as environment variables for one session, then wipe them. Nothing is written to disk.">
+        <Command cmd="pm inject" />
+      </PageHeader>
+      <Card title="Command line" flush footNote={<Command cmd="which pm" />}>
+        <SettingRow icon="terminal" title="pm command" description="pm 12.0.0 at /usr/local/bin/pm."><Status tone="success">Up to date</Status></SettingRow>
+        <SettingRow title="Engine" description={<span className="mono-small">/Applications/APM.app/Contents/Resources/bin/pm</span>}><Status tone="success">Inside APM.app</Status></SettingRow>
+      </Card>
+    </div>
   );
 }
 
@@ -114,6 +117,7 @@ export const specs = {
   Pattern_SidebarList: { title: "Sidebar and list", caption: "`bg-subtle` sidebar with 28px `NavItem` rows, a 340px list with sticky recency groups and 56px `ItemRow` rows.", pad: "32px 24px" },
   Pattern_DetailPane: { title: "Detail pane", caption: "A `lg` tile and `title-1`, badges, then every value in one `FieldGroup`. Dates in `mono-small` at the foot.", stage: "plain", align: "stretch", justify: "flex-start", pad: "40px 48px" },
   Pattern_ToastReceipt: { title: "Toast with a commit receipt", caption: "Every change writes a commit to History. The toast carries the short hash; clicking it opens the commit.", span: "half", height: 180 },
-  Pattern_CliChip: { title: "The pm command chip", caption: "Each view shows the `pm` command that does the same thing. Click to copy it.", span: "half", height: 180 },
+  Pattern_CliChip: { title: "The pm command chip", caption: "Each view shows the `pm` command that does the same thing, as a `Command`. Click to copy it. Settings, Appearance, \"Show pm commands\" hides them all.", span: "half", height: 180 },
+  Pattern_SettingsPage: { title: "Settings page", caption: "A `PageHeader` with the page's `pm` command, then a stack of `Card`s 16px apart. Rows are `SettingRow`s in a `flush` card; live state is a `Status`.", stage: "plain", align: "stretch", justify: "flex-start", pad: "32px 40px" },
   Pattern_Identifier: { title: "The space:type:name identifier", caption: "The address `pm` and `.apmignore` use. The space is `accent`, the separators `text-disabled`, the name `text`.", span: "half", height: 140 }
 };

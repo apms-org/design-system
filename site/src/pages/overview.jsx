@@ -98,7 +98,7 @@ function UseInApp() {
       <div className="ds-use-text">
         <h3 className="ds-h3">In the app and the extension</h3>
         <p className="ds-p">The desktop app keeps a copy of <code className="ds-ic">tokens.css</code>, <code className="ds-ic">themes.js</code>, <code className="ds-ic">components/bundle.css</code>, <code className="ds-ic">components/bundle.js</code> and <code className="ds-ic">fonts/</code> in <code className="ds-ic">GUI/vendor/design-system</code>. The browser extension keeps the same files plus <code className="ds-ic">patterns/extension.css</code> in <code className="ds-ic">extension/vendor/design-system</code>. Change a token, a component or a surface here, then run <code className="ds-ic">npm run ds:sync</code> in the app or the extension to ship it.</p>
-        <p className="ds-p">Screens read components from <code className="ds-ic">window.APM</code> and style layout with the tokens. Never type a hex value in app CSS.</p>
+        <p className="ds-p">Screens read components from <code className="ds-ic">window.APM</code> and style layout with the tokens. App CSS holds only window chrome and screen layout: the sidebar, the list and detail panes, the Settings grid. A card, a header, a status or a row that a second screen could use belongs in the bundle. Never type a hex value in app CSS.</p>
       </div>
       <CodeBlock code={APP_CODE} />
     </div>

@@ -1,6 +1,6 @@
 {
   "name": "apm-design-system",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "private": true,
   "description": "The APM design system: tokens, components, guidelines, and the documentation site built with them.",
   "type": "module",

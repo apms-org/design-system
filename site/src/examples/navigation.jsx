@@ -1,6 +1,7 @@
 import { Row, Stack, Grid } from "../lib/ui.jsx";
 
-const { NavItem, Tabs, SettingRow, FieldGroup, Switch, Select, SegmentedControl, Button } = window.APM;
+const { NavItem, Tabs, SettingRow, FieldGroup, Switch, Select, SegmentedControl, Button, Stepper } = window.APM;
+const { useState } = React;
 
 export function NavItem_Sidebar() {
   return (
@@ -80,13 +81,29 @@ export function SettingRow_Danger() {
   );
 }
 
+export function Stepper_Inline() {
+  const [step, setStep] = useState("review");
+  return <Stepper items={[{ value: "source", label: "Source" }, { value: "review", label: "Review" }, { value: "done", label: "Done" }]} value={step} onChange={setStep} />;
+}
+
+export function Stepper_Spread() {
+  const steps = ["Email", "Code", "Recovery key", "Second factor", "New password"];
+  return (
+    <Stack width={520}>
+      <Stepper layout="spread" items={steps} value="Recovery key" label="Recovery" />
+    </Stack>
+  );
+}
+
 export const specs = {
   NavItem_Sidebar: { caption: "Counts in `text-tertiary`, a `warning` badge for Watchtower, a shortcut for Lock vault.", span: "half", stage: "subtle" },
   NavItem_Types: { caption: "One icon per item type, the same icons as the tiles.", span: "half", stage: "subtle" },
   Tabs_Basic: { caption: "Underline tabs with a sliding `text` bar.", span: "half" },
   Tabs_Counts: { caption: "Add `count` when the number helps choose.", span: "half" },
   SettingRow_Group: { caption: "Rows stack in a `FieldGroup` with hairlines between them." },
-  SettingRow_Danger: { caption: "`danger` for destructive rows. The button repeats the verb." }
+  SettingRow_Danger: { caption: "`danger` for destructive rows. The button repeats the verb." },
+  Stepper_Inline: { caption: "Import and export: Source, Review, Done. Finished steps are buttons back.", span: "half" },
+  Stepper_Spread: { caption: "`layout=\"spread\"` for a flow that owns the screen, such as recovering a vault.", span: "half" }
 };
 
 export const notes = {

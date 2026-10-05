@@ -74,8 +74,8 @@ export const principles = {
 const COPY_PAIRS = [
   { good: "Unlock your vault", bad: "Unlock Your Vault", why: "Sentence case everywhere." },
   { good: "Copied password · Clears in 30s", bad: "Password copied to clipboard!", why: "Past tense, the result, the number. No exclamation marks." },
-  { good: "Incorrect password. 4 attempts left before a 30 second wait.", bad: "Oops, something went wrong. Please try again.", why: "What happened, what to do, the number that matters." },
-  { good: "No matches for \"stripe\". Search looks at names, usernames, types and tags.", bad: "We couldn't find anything.", why: "APM never says \"we\". Say what would be here." },
+  { good: "Incorrect password. 4 attempts left before a wait.", bad: "Oops, something went wrong. Please try again.", why: "What happened, what to do, the number that matters." },
+  { good: "No matches for \"stripe\". Search looks at names, usernames, websites, types and spaces.", bad: "We couldn't find anything.", why: "APM never says \"we\". Say what would be here." },
   { good: "21 items · 30s · 118 bits", bad: "twenty-one items · thirty seconds", why: "Digits, not words." }
 ];
 

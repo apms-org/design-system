@@ -7,5 +7,6 @@ The action button. Secondary is the default; primary is ink and appears at most 
 - Lead with the verb, sentence case. Add `kbd` when a shortcut exists.
 - `loading` swaps the label for a spinner and keeps the width, so the layout does not jump.
 - Pass `href` to render a link that looks like a button.
+- `link` is an accent text button that sits inside a sentence ("No details yet. Add some", "Choose another file"). It takes the surrounding font size.
 
 Props: `variant`, `size`, `icon`, `iconRight`, `kbd`, `loading`, `block`, `href`, `disabled`, `children`.

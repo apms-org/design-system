@@ -15,7 +15,7 @@ export const patterns = {
   icon: "workflow",
   title: "Patterns",
   lede: "How the components come together in the app. Each pattern is live and built only from the bundle, the tokens and a few layout classes.",
-  keywords: "pattern lock sidebar list detail toast receipt cli pm identifier crumb",
+  keywords: "pattern lock sidebar list detail toast receipt cli pm identifier crumb settings card page header",
   blocks: (ctx) => exampleBlocks("Pattern", ctx && ctx.theme ? { theme: ctx.theme } : undefined)
 };
 

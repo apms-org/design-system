@@ -1,0 +1,13 @@
+<!-- @dsCard group="Layout" height=200 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>KeyValue</title></head>
+<body>
+<div id="root" style="display:flex;flex-direction:column;gap:12px;padding:20px;max-width:560px"></div>
+<script>
+var A=window.APM,h=React.createElement;
+function Demo(){return h(A.KeyValueList,null,h(A.KeyValue,{label:'Vault file',mono:true,copy:'~/.apm/vault.dat'},'~/.apm/vault.dat'),h(A.KeyValue,{label:'Profile'},'Hardened'),h(A.KeyValue,{label:'Cipher',mono:true},'XChaCha20-Poly1305'),h(A.KeyValue,{label:'Signature'},h(A.Badge,{size:'sm',tone:'success',icon:'check-check'},'Verified')));}
+ReactDOM.createRoot(document.getElementById('root')).render(h(Demo));
+</script>
+</body>
+</html>

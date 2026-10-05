@@ -1,6 +1,6 @@
 import { Row, Stack, Grid } from "../lib/ui.jsx";
 
-const { Button, IconButton, Kbd, Tooltip } = window.APM;
+const { Button, IconButton, Kbd, Tooltip, Icon } = window.APM;
 
 export function Button_Variants() {
   return (
@@ -137,11 +137,21 @@ export function Tooltip_Anatomy() {
   );
 }
 
+export function Button_Link() {
+  return (
+    <Stack gap={12}>
+      <span className="small">No details yet. <Button variant="link">Add some</Button></span>
+      <span className="caption"><Button variant="link"><Icon name="history" size={12} />3 earlier versions</Button></span>
+    </Stack>
+  );
+}
+
 export const specs = {
   Button_Variants: { caption: "Primary is ink and appears once per view. Secondary is the default." },
   Button_Sizes: { caption: "`sm` 28px in pane headers, `md` 32px by default, `lg` 40px on the lock screen and in dialogs." },
   Button_States: { caption: "A shortcut, a link, loading (keeps its width), and disabled." },
   Button_Block: { caption: "`block` fills the container, as on the lock screen.", span: "half" },
+  Button_Link: { caption: "`link` sits inside a sentence and takes its size.", span: "half" },
   IconButton_Variants: { caption: "Ghost by default; secondary when it stands alone on a surface. Hover for the tooltip." },
   IconButton_Sizes: { caption: "`xs` 24px inside dense rows, `sm` 28px by default, `md` 32px.", span: "half" },
   IconButton_States: { caption: "Active, the copied state, and disabled.", span: "half" },

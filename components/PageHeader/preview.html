@@ -1,0 +1,13 @@
+<!-- @dsCard group="Layout" height=120 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>PageHeader</title></head>
+<body>
+<div id="root" style="display:flex;flex-direction:column;gap:12px;padding:20px;max-width:720px"></div>
+<script>
+var A=window.APM,h=React.createElement;
+function Demo(){return h(A.PageHeader,{title:'Sessions',description:'When the vault locks itself, how long this unlock lasts, and short-lived sessions you hand to scripts, CI and agents.',actions:h(A.Button,{size:'sm',variant:'primary',icon:'plus'},'New session')},h(A.Command,{cmd:'pm session list'}));}
+ReactDOM.createRoot(document.getElementById('root')).render(h(Demo));
+</script>
+</body>
+</html>

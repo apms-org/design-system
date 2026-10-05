@@ -1,0 +1,13 @@
+<!-- @dsCard group="Layout" height=300 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Card</title></head>
+<body>
+<div id="root" style="display:flex;flex-direction:column;gap:12px;padding:20px;max-width:680px"></div>
+<script>
+var A=window.APM,h=React.createElement;
+function Demo(){return h(A.Card,{title:'This session',description:'Locks after 15 minutes idle or 8 hours after unlocking.',footNote:h(A.Command,{cmd:'pm lock'}),footer:h(A.Button,{size:'sm',variant:'primary',icon:'lock'},'Lock now'),flush:true},h(A.SettingRow,{title:'Read-only',description:'Nothing can be added, edited or deleted.'},h(A.Switch,{label:'Read-only'})),h(A.SettingRow,{title:'Lock on sleep',description:'Locks when the Mac goes to sleep.'},h(A.Switch,{label:'Lock on sleep',defaultChecked:true})));}
+ReactDOM.createRoot(document.getElementById('root')).render(h(Demo));
+</script>
+</body>
+</html>

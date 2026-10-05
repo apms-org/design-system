@@ -1,0 +1,13 @@
+<!-- @dsCard group="Inputs" height=88 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Chip</title></head>
+<body>
+<div id="root" style="display:flex;flex-direction:column;gap:12px;padding:20px;max-width:560px"></div>
+<script>
+var A=window.APM,h=React.createElement;
+function Demo(){var s=React.useState('all');return h('div',{style:{display:'flex',gap:6,flexWrap:'wrap'}},['all','ADD','EDIT','GET','DEL'].map(function(x){return h(A.Chip,{key:x,selected:s[0]===x,onClick:function(){s[1](x);}},x==='all'?'All':x);}));}
+ReactDOM.createRoot(document.getElementById('root')).render(h(Demo));
+</script>
+</body>
+</html>

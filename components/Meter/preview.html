@@ -1,0 +1,13 @@
+<!-- @dsCard group="Display" height=170 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Meter</title></head>
+<body>
+<div id="root" style="display:flex;flex-direction:column;gap:12px;padding:20px;max-width:560px"></div>
+<script>
+var A=window.APM,h=React.createElement;
+function Demo(){return h('div',{style:{display:'flex',gap:24,alignItems:'center'}},h(A.Meter,{value:86,tone:'success',size:132,sub:'of 100'}),h(A.Meter,{value:58,tone:'warning',size:96,stroke:8}),h(A.Meter,{value:24,tone:'danger',size:72,stroke:6,label:'24'}));}
+ReactDOM.createRoot(document.getElementById('root')).render(h(Demo));
+</script>
+</body>
+</html>

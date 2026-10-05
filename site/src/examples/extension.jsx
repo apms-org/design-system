@@ -1,4 +1,4 @@
-const { Mark, Icon, IconButton, Button, Tabs, ItemIcon, ItemRow, SearchField, Select, Input, EmptyState, Callout, Badge, Kbd, Spinner, TotpCode, StrengthMeter, SegmentedControl, Slider, Checkbox, PasswordInput, FieldGroup, SecretField, SettingRow, Switch, NavItem, Toast, Dialog, MenuList } = window.APM;
+const { Mark, Icon, IconButton, Button, Tabs, ItemIcon, ItemRow, SearchField, Select, Input, EmptyState, Callout, Badge, Kbd, Spinner, TotpCode, StrengthMeter, SegmentedControl, Slider, Checkbox, PasswordInput, FieldGroup, SecretField, SettingRow, Switch, NavItem, Toast, Dialog, MenuList, Command, Progress } = window.APM;
 
 const LOGO = {
   vercel: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 76 65'%3E%3Cpath d='M38 0 76 65H0z' fill='%23000'/%3E%3C/svg%3E",
@@ -7,6 +7,7 @@ const LOGO = {
 };
 
 const TOTP = "JBSWY3DPEHPK3PXP";
+const LINK_CMD = "pm extension link";
 
 function Colorized({ value }) {
   return <span className="clr">{Array.from(value).map((c, i) => <span key={i} className={/[0-9]/.test(c) ? "d" : /[^A-Za-z0-9]/.test(c) ? "s" : undefined}>{c}</span>)}</span>;
@@ -74,11 +75,38 @@ function Overline({ children, count, action }) {
 function Steps() {
   return (
     <ol className="steps">
-      <li><span className="step-n">1</span><span>Open the APM app, or run <span className="mono">pm bridge serve</span>.</span></li>
+      <li><span className="step-n">1</span><span>Open the APM app, or run this once in a terminal so the browser can start pm without the app:</span></li>
+      <li className="steps-cmd"><Command block cmd={LINK_CMD} label="Copy the command" /></li>
       <li><span className="step-n">2</span><span>The extension connects by itself. There is nothing to paste.</span></li>
-      <li><span className="step-n">3</span><span>If APM asks you to confirm, check the code and choose <b>Connect</b>.</span></li>
+      <li><span className="step-n">3</span><span>Check the code matches, then choose <b>Connect</b> in the app, or answer <b>y</b> in the terminal.</span></li>
     </ol>
   );
+}
+
+function LinkCommand({ children }) {
+  return (
+    <div className="pair-link">
+      {children && <span>{children}</span>}
+      <Command block cmd={LINK_CMD} label="Copy the command" />
+    </div>
+  );
+}
+
+function PairShell({ sub, children }) {
+  return (
+    <div className="px-pair">
+      <Mark tile size={44} />
+      <div className="pair-head">
+        <h1 className="title-1">Connect to APM</h1>
+        <p className="small muted">{sub}</p>
+      </div>
+      {children}
+    </div>
+  );
+}
+
+function PairCodeTiles({ code }) {
+  return <div className="pair-code" aria-label={"Code " + code}>{code.split("").map((c, i) => <span key={i} className={c === "-" ? "sep" : undefined}>{c}</span>)}</div>;
 }
 
 function MenuHead({ host, right }) {
@@ -123,36 +151,57 @@ export function ExtPopup_Pairing() {
     <div className="ds-ext-duo">
       <Shot label="Not paired, APM found" size="380 × 580">
         <Popup>
-          <div className="px-pair">
-            <Mark tile size={44} />
-            <div className="pair-head">
-              <h1 className="title-1">Connect to APM</h1>
-              <p className="small muted">Connecting to the APM app on this computer.</p>
-            </div>
+          <PairShell sub="Connecting to the APM app on this computer.">
             <div className="pair-body">
               <div className="pair-found"><Icon name="circle-check" size={16} /><span>APM is running on this computer</span></div>
               <Steps />
               <Button variant="primary" block>Connect</Button>
               <button type="button" className="linkbtn">Use a pairing token instead</button>
             </div>
-          </div>
+          </PairShell>
         </Popup>
       </Shot>
-      <Shot label="Waiting for the code" size="380 × 580">
+      <Shot label="Waiting for the app" size="380 × 580">
         <Popup>
-          <div className="px-pair">
-            <Mark tile size={44} />
-            <div className="pair-head">
-              <h1 className="title-1">Connect to APM</h1>
-              <p className="small muted">Connecting to the APM app on this computer.</p>
-            </div>
+          <PairShell sub="Connecting to the APM app on this computer.">
             <div className="pair-body">
-              <div className="pair-code" aria-label="Code KJU-USY">{"KJU-USY".split("").map((c, i) => <span key={i} className={c === "-" ? "sep" : undefined}>{c}</span>)}</div>
+              <PairCodeTiles code="KJU-USY" />
               <p className="small center">APM is asking you to confirm this browser. Check the code matches, then choose Connect in the app.</p>
               <div className="pair-wait"><Spinner size={14} /><span>Waiting for APM</span><span className="mono-small muted">1:48</span></div>
               <Button variant="ghost" block>Cancel</Button>
             </div>
-          </div>
+          </PairShell>
+        </Popup>
+      </Shot>
+    </div>
+  );
+}
+
+export function ExtPopup_PairingPm() {
+  return (
+    <div className="ds-ext-duo">
+      <Shot label="Waiting for pm" size="380 × 580">
+        <Popup>
+          <PairShell sub="Connecting to pm on this computer. You confirm it once in the terminal.">
+            <div className="pair-body">
+              <PairCodeTiles code="KJU-USY" />
+              <p className="small center">Confirm this browser in your terminal. Check the code matches, then answer <b>y</b>.</p>
+              <LinkCommand>Not running yet? Start it, and it asks for this code:</LinkCommand>
+              <div className="pair-wait"><Spinner size={14} /><span>Waiting for pm</span><span className="mono-small muted">1:48</span></div>
+              <Button variant="ghost" block>Cancel</Button>
+            </div>
+          </PairShell>
+        </Popup>
+      </Shot>
+      <Shot label="Pairing token" size="380 × 580">
+        <Popup>
+          <PairShell sub="Connecting to the APM app on this computer.">
+            <form className="pair-body" onSubmit={(e) => e.preventDefault()}>
+              <Input id="ext-pair-token" label="Pairing token" placeholder="64 letters and digits" hint="In APM, open Settings, then Browser extension, and copy the token. In a terminal, pm extension token --show prints it." className="mono-input" autoComplete="off" spellCheck={false} />
+              <Button variant="primary" block type="submit" disabled>Connect</Button>
+              <button type="button" className="linkbtn">Connect with a code instead</button>
+            </form>
+          </PairShell>
         </Popup>
       </Shot>
     </div>
@@ -162,29 +211,49 @@ export function ExtPopup_Pairing() {
 export function ExtPopup_NotRunning() {
   return (
     <div className="ds-ext-duo">
-      <Shot label="Not paired, APM not running" size="380 × 580">
+      <Shot label="Not paired, APM not connected" size="380 × 580">
         <Popup>
-          <div className="px-pair">
-            <Mark tile size={44} />
-            <div className="pair-head">
-              <h1 className="title-1">Connect to APM</h1>
-              <p className="small muted">The extension fills from your vault through the APM app on this computer. It cannot open vault.dat on its own.</p>
-            </div>
+          <PairShell sub="The extension fills from your vault through the APM app, or through pm when the app is closed. It cannot open vault.dat on its own.">
             <div className="pair-body">
-              <div className="pair-found is-off"><Icon name="circle-alert" size={16} /><span>APM isn't running. Open the app, or run <span className="mono">pm bridge serve</span>.</span></div>
+              <div className="pair-found is-off"><Icon name="circle-alert" size={16} /><span>APM isn't connected. Open the app, or link this browser once.</span></div>
               <Steps />
-              <Callout tone="danger" icon="circle-alert">APM isn't running. Open the APM app, or run pm bridge serve, then try again.</Callout>
+              <Callout tone="danger" icon="circle-alert">APM isn't connected. Open the APM app, or run pm extension link once, then try again.</Callout>
               <Button variant="primary" block>Connect</Button>
               <button type="button" className="linkbtn">Use a pairing token instead</button>
             </div>
-          </div>
+          </PairShell>
         </Popup>
       </Shot>
       <Shot label="Paired, offline" size="380 × 580">
         <Popup>
           <div className="px-center">
-            <EmptyState icon="plug" title="APM isn't running" action={<Button variant="primary" icon="refresh-cw">Try again</Button>}>
-              Open the APM app on this computer, or run <span className="mono">pm bridge serve</span> in a terminal. The extension looks for it on 127.0.0.1:41417 and cannot read your vault without it.
+            <EmptyState icon="plug" title="APM isn't connected" action={<Button variant="primary" icon="refresh-cw">Try again</Button>}>
+              <LinkCommand>Open the APM app on 127.0.0.1:41417, or run this once in a terminal so the browser can start pm when the app is closed.</LinkCommand>
+            </EmptyState>
+          </div>
+        </Popup>
+      </Shot>
+    </div>
+  );
+}
+
+export function ExtPopup_Errors() {
+  return (
+    <div className="ds-ext-duo">
+      <Shot label="Linked, pm did not answer" size="380 × 580">
+        <Popup>
+          <div className="px-center">
+            <EmptyState icon="plug" title="APM isn't connected" action={<Button variant="primary" icon="refresh-cw">Try again</Button>}>
+              <LinkCommand>pm is linked but did not answer: Native host has exited. Open the APM app, or run the link again to repair it.</LinkCommand>
+            </EmptyState>
+          </div>
+        </Popup>
+      </Shot>
+      <Shot label="Could not start" size="380 × 580">
+        <Popup>
+          <div className="px-center">
+            <EmptyState icon="triangle-alert" title="APM could not start" action={<Button variant="primary" icon="refresh-cw">Try again</Button>}>
+              The extension could not start.
             </EmptyState>
           </div>
         </Popup>
@@ -214,41 +283,65 @@ export function ExtPopup_NoVault() {
   );
 }
 
+function LockShell({ note, children }) {
+  return (
+    <div className="px-lock">
+      <div className="lock-top">
+        <Mark tile size={56} />
+        <h1 className="display lock-h">Unlock your vault</h1>
+        <p className="small muted">Personal is locked</p>
+      </div>
+      <div className="lock-form">{children}</div>
+      <p className="lock-note caption">{note}</p>
+      <div className="lock-foot mono-small">XChaCha20-Poly1305 · Argon2id</div>
+    </div>
+  );
+}
+
+const NOTE_APP = "Your password goes to the APM app over the paired loopback bridge. The extension never keeps it.";
+const NOTE_PM = "Your password goes to pm on this computer through the browser's native messaging. The extension never keeps it.";
+
 export function ExtPopup_Locked() {
   return (
     <div className="ds-ext-duo">
       <Shot label="Locked, with Touch ID" size="380 × 580">
         <Popup>
-          <div className="px-lock">
-            <div className="lock-top">
-              <Mark tile size={56} />
-              <h1 className="display lock-h">Unlock your vault</h1>
-              <p className="small muted">Personal is locked</p>
-            </div>
-            <div className="lock-form">
-              <PasswordInput id="ext-lock-a" />
-              <div className="or"><span>or</span></div>
-              <Button variant="secondary" block icon="fingerprint">Unlock with Touch ID</Button>
-            </div>
-            <p className="lock-note caption">Your password goes to the APM app over the paired loopback bridge. The extension never keeps it.</p>
-            <div className="lock-foot mono-small">XChaCha20-Poly1305 · Argon2id</div>
-          </div>
+          <LockShell note={NOTE_APP}>
+            <PasswordInput id="ext-lock-a" />
+            <div className="or"><span>or</span></div>
+            <Button variant="secondary" block icon="fingerprint">Unlock with Touch ID</Button>
+          </LockShell>
         </Popup>
       </Shot>
-      <Shot label="Wrong password" size="380 × 580">
+      <Shot label="Wrong password, through pm" size="380 × 580">
         <Popup>
-          <div className="px-lock">
-            <div className="lock-top">
-              <Mark tile size={56} />
-              <h1 className="display lock-h">Unlock your vault</h1>
-              <p className="small muted">Personal is locked</p>
-            </div>
-            <div className="lock-form">
-              <PasswordInput id="ext-lock-b" defaultValue="correct horse" error="Incorrect password. 4 attempts left before recovery is required." />
-            </div>
-            <p className="lock-note caption">Your password goes to the APM app over the paired loopback bridge. The extension never keeps it.</p>
-            <div className="lock-foot mono-small">XChaCha20-Poly1305 · Argon2id</div>
-          </div>
+          <LockShell note={NOTE_PM}>
+            <PasswordInput id="ext-lock-b" defaultValue="correct horse" error="Incorrect password. 4 attempts left before recovery is required." />
+          </LockShell>
+        </Popup>
+      </Shot>
+    </div>
+  );
+}
+
+export function ExtPopup_Unlocking() {
+  return (
+    <div className="ds-ext-duo">
+      <Shot label="Deriving the key" size="380 × 580">
+        <Popup>
+          <LockShell note={NOTE_APP}>
+            <PasswordInput id="ext-lock-c" defaultValue="correct horse battery" busy hint="Deriving key · Argon2id" />
+            <Progress indeterminate label="Deriving key" />
+            <div className="or"><span>or</span></div>
+            <Button variant="secondary" block icon="fingerprint">Unlock with Touch ID</Button>
+          </LockShell>
+        </Popup>
+      </Shot>
+      <Shot label="Too many attempts" size="380 × 580">
+        <Popup>
+          <LockShell note={NOTE_APP}>
+            <PasswordInput id="ext-lock-d" error="Too many attempts. Try again in 30 seconds." />
+          </LockShell>
         </Popup>
       </Shot>
     </div>
@@ -327,7 +420,49 @@ export function ExtPopup_ThisSite() {
                 <ItemRow title="Harbor" subtitle="maya@example.com" src={LOGO.harbor} time="2m" />
               </section>
               <Button variant="secondary" block icon="plus">Save a login for app.harbor.io</Button>
+              <button type="button" className="linkbtn">Use a saved login on app.harbor.io</button>
             </div>
+          </div>
+          <PopupFoot />
+        </Popup>
+      </Shot>
+    </div>
+  );
+}
+
+export function ExtPopup_SiteStates() {
+  return (
+    <div className="ds-ext-duo">
+      <Shot label="Paused on this site" size="380 × 580">
+        <Popup>
+          <MainHead />
+          <PopupTabs value="site" count={1} />
+          <div className="px-body">
+            <div className="stack">
+              <div className="site-head">
+                <span className="site-tile"><Icon name="shield-off" size={16} /></span>
+                <span className="site-text"><span className="site-host">bank.example.com</span><span className="site-sub">APM is paused on this site</span></span>
+                <Button size="sm" variant="ghost" icon="plus">New</Button>
+              </div>
+              <Callout tone="neutral" icon="shield-off" title="Paused on this site" action={<Button size="sm" variant="secondary">Resume</Button>}>APM won't fill or offer to save here until you resume it.</Callout>
+              <Callout tone="warning" title="Weak password">maya_c has a password that is easy to guess. Change it on bank.example.com, and APM offers to update the login.</Callout>
+              <section className="sect">
+                <Overline count={1}>Logins</Overline>
+                <div className="matches"><Match title="Example Bank" user="maya_c" sub="Default" /></div>
+              </section>
+              <Button variant="secondary" block icon="plus">Save a login for bank.example.com</Button>
+              <button type="button" className="linkbtn">Use a saved login on bank.example.com</button>
+            </div>
+          </div>
+          <PopupFoot />
+        </Popup>
+      </Shot>
+      <Shot label="No website in this tab" size="380 × 580">
+        <Popup>
+          <MainHead />
+          <PopupTabs value="site" />
+          <div className="px-body">
+            <EmptyState icon="globe" title="No website in this tab">Open a site to see its logins here. Everything else is in Vault.</EmptyState>
           </div>
           <PopupFoot />
         </Popup>
@@ -716,12 +851,22 @@ export function ExtMenu_Connect() {
         <MenuHead host="" />
         <div className="im-locked">
           <span className="im-lock-ic"><Icon name="plug" size={16} /></span>
-          <span className="row-text"><span className="row-title">APM isn't connected</span><span className="im-lock-body">Open the APM app, or run pm bridge serve. The extension connects by itself.</span></span>
+          <span className="row-text"><span className="row-title">APM isn't connected</span><span className="im-lock-body">Open the APM app, or run pm extension link once in a terminal. The extension connects by itself.</span></span>
         </div>
         <div className="im-sep" />
         <button type="button" className="im-row im-action"><Icon name="external-link" size={16} /><span>Open APM in the toolbar</span></button>
       </div>
     </Frame>
+  );
+}
+
+export function ExtMenu_FieldIcon() {
+  return (
+    <div className="ds-ext-anchor">
+      <Input id="ext-fi-user" label="Email" placeholder="you@example.com" trailing={<Mark tile size={20} />} />
+      <Input id="ext-fi-pw" label="Password" type="password" defaultValue="t7#Vq9!mZ2pL@x4R" trailing={<Mark tile size={20} style={{ opacity: 0.5 }} />} />
+      <Input id="ext-fi-code" size="sm" label="Code" placeholder="123456" trailing={<Mark tile size={16} />} />
+    </div>
   );
 }
 
@@ -806,10 +951,10 @@ export function ExtPrompt_Toast() {
   return (
     <div className="ds-ext-duo">
       <Frame kind="note">
-        <div className="pr pr-toast-wrap"><Toast title="Saved Harbor to Default" description="APM fills it next time you sign in." className="pr-toast" /></div>
+        <div className="pr pr-toast"><Toast title="Saved Harbor to Default" description="APM fills it next time you sign in." className="pr-toast" /></div>
       </Frame>
       <Frame kind="note">
-        <div className="pr"><Toast title="APM won't offer to save on harbor.dev" description="Undo this in the extension settings, under Excluded sites." tone="neutral" className="pr-toast" /></div>
+        <div className="pr pr-toast"><Toast title="APM won't offer to save on harbor.dev" description="Undo this in the extension settings, under Excluded sites." tone="neutral" className="pr-toast" /></div>
       </Frame>
     </div>
   );
@@ -826,7 +971,7 @@ function CreateSheet() {
         <div className="title-2">Save a passkey for harbor.dev</div>
         <p className="small muted">Harbor wants to create a passkey for maya@example.com. APM keeps it in your vault, so it works in every browser you pair.</p>
         <div className="sheet-label small">Save to</div>
-        <div className="pick is-on">
+        <div className="pick is-on static">
           <ItemIcon name="Harbor" src={LOGO.harbor} />
           <span className="row-text"><span className="row-title">Harbor</span><span className="row-sub">maya@example.com · Default</span></span>
           <Button size="sm" variant="ghost">Change</Button>
@@ -914,6 +1059,93 @@ export function ExtPrompt_PasskeyStates() {
   );
 }
 
+function SheetHead() {
+  return (
+    <div className="sheet-head">
+      <Mark tile size={32} />
+      <IconButton icon="x" label="Cancel" size="sm" />
+    </div>
+  );
+}
+
+export function ExtPrompt_PasskeyChoose() {
+  return (
+    <div className="ds-ext-duo">
+      <Shot label="Choosing where to save">
+        <Frame kind="sheet">
+          <div className="pr pr-create">
+            <div className="sheet" role="dialog" aria-label="Save a passkey">
+              <SheetHead />
+              <div className="title-2">Save a passkey for harbor.dev</div>
+              <p className="small muted">Harbor wants to create a passkey for maya@example.com. APM keeps it in your vault, so it works in every browser you pair.</p>
+              <div className="sheet-label small">Save to</div>
+              <div className="sheet-list">
+                <button type="button" className="pick">
+                  <ItemIcon name="Harbor" src={LOGO.harbor} />
+                  <span className="row-text"><span className="row-title">Harbor</span><span className="row-sub">maya@example.com · Default</span></span>
+                  <span className="pick-mark" />
+                </button>
+                <button type="button" className="pick">
+                  <ItemIcon name="Harbor work" src={LOGO.harbor} />
+                  <span className="row-text"><span className="row-title">Harbor work</span><span className="row-sub">maya@work.dev · Work · 1 passkey</span></span>
+                  <span className="pick-mark" />
+                </button>
+                <button type="button" className="pick is-on">
+                  <span className="apm-tile apm-tile-md"><Icon name="plus" size={16} /></span>
+                  <span className="row-text"><span className="row-title">New login for harbor.dev</span><span className="row-sub">Holds only this passkey</span></span>
+                  <span className="pick-mark"><Icon name="check" size={14} strokeWidth={2.25} /></span>
+                </button>
+              </div>
+              <div className="sheet-foot">
+                <Button variant="ghost" size="sm">Use this browser instead</Button>
+                <span className="np-spacer" />
+                <Button variant="primary" icon="fingerprint">Save passkey</Button>
+              </div>
+              <div className="sheet-mono mono-small">ES256 · P-256 · kept in APM, not in Chrome</div>
+            </div>
+          </div>
+        </Frame>
+      </Shot>
+      <Shot label="New login, saved">
+        <Frame kind="sheet">
+          <div className="pr pr-create">
+            <div className="sheet" role="dialog" aria-label="Save a passkey">
+              <SheetHead />
+              <div className="title-2">Save a passkey for harbor.dev</div>
+              <p className="small muted">Harbor wants to create a passkey for maya@example.com. APM keeps it in your vault, so it works in every browser you pair.</p>
+              <div className="sheet-label small">Save to</div>
+              <div className="pick is-on static">
+                <span className="apm-tile apm-tile-md"><Icon name="plus" size={16} /></span>
+                <span className="row-text"><span className="row-title">New login for harbor.dev</span><span className="row-sub">maya@example.com · Default</span></span>
+                <Button size="sm" variant="ghost">Change</Button>
+              </div>
+              <Select id="ext-pk-space" size="sm" label="Space" defaultValue="" options={SPACES} />
+              <div className="sheet-foot">
+                <Button variant="ghost" size="sm" disabled>Use this browser instead</Button>
+                <span className="np-spacer" />
+                <Button variant="primary" icon="check" disabled>Saved</Button>
+              </div>
+              <div className="sheet-mono mono-small">ES256 · P-256 · kept in APM, not in Chrome</div>
+            </div>
+          </div>
+        </Frame>
+      </Shot>
+      <Shot label="No passkey for the site">
+        <Frame kind="sheet">
+          <div className="pr pr-get">
+            <div className="sheet" role="dialog" aria-label="Sign in with a passkey">
+              <SheetHead />
+              <div className="title-2">No passkey for harbor.dev</div>
+              <p className="small muted">Your vault has no passkey this site accepts. Use another device, or sign in with a password.</p>
+              <div className="sheet-foot"><span className="np-spacer" /><Button variant="primary">Use another device</Button></div>
+            </div>
+          </div>
+        </Frame>
+      </Shot>
+    </div>
+  );
+}
+
 const SECTIONS = [
   { id: "connection", label: "Connection", icon: "plug" },
   { id: "autofill", label: "Autofill", icon: "mouse-pointer-click" },
@@ -954,27 +1186,39 @@ function Group({ title, foot, children }) {
   );
 }
 
-function Bridge({ live }) {
+function Bridge({ live, app = "APM" }) {
   return (
     <div className="bridge">
       <div className="bridge-node"><span className="bridge-ic"><Icon name="globe" size={16} /></span><b>Chrome</b><span className="caption muted">This extension</span></div>
       <div className={"bridge-wire" + (live ? " is-live" : "")}><i /><span className="mono-small">{live ? "paired" : "not paired"}</span></div>
-      <div className="bridge-node"><span className="bridge-ic is-app"><Mark size={18} /></span><b>APM</b>{live ? <span className="caption status-ok"><span className="live-dot" />Unlocked</span> : <span className="caption muted">Locked</span>}</div>
+      <div className="bridge-node"><span className="bridge-ic is-app"><Mark size={18} /></span><b>{app}</b>{live ? <span className="caption status-ok"><span className="live-dot" />Unlocked</span> : <span className="caption muted">Not paired</span>}</div>
       <div className={"bridge-wire" + (live ? " is-live" : "")}><i /><span className="mono-small">decrypts</span></div>
       <div className="bridge-node"><span className="bridge-ic"><Icon name="file-lock-2" size={16} /></span><b>vault.dat</b><span className="caption muted">{live ? "21 items" : "Encrypted"}</span></div>
     </div>
   );
 }
 
+function WithoutApp({ linked }) {
+  return (
+    <Group title="Without the app" foot="pm only answers this extension, and only after you confirm the code once. It holds the key while the vault is unlocked and locks on the vault's auto-lock settings. pm extension unlink undoes it.">
+      <SettingRow title="Browser starts pm" description={linked ? "Linked. When the APM app is closed, the browser starts pm on its own." : "Not linked yet. Run the command below once in a terminal."}>
+        {linked ? <Badge tone="success" icon="circle-check">Linked</Badge> : <Badge icon="unlink">Not linked</Badge>}
+      </SettingRow>
+      <div className="opt-link"><Command block cmd={LINK_CMD} label="Copy the command" /></div>
+    </Group>
+  );
+}
+
 export function ExtOptions_Connection() {
   return (
     <Options sec="connection">
-      <OptHead title="Connection">The extension cannot decrypt anything on its own. It asks the APM app on this computer, which holds the key while the vault is unlocked.</OptHead>
+      <OptHead title="Connection">The extension cannot decrypt anything on its own. It asks the APM app on this computer, or pm when the app is closed, and that holds the key while the vault is unlocked.</OptHead>
       <Bridge live />
       <Group>
         <SettingRow title="APM app" description="APM 9.2 on this computer"><Badge tone="success" icon="circle-check">Connected</Badge></SettingRow>
         <SettingRow title="Pairing" description="Paired 2 days ago as Chrome on macOS. Rotating the token in APM disconnects this browser, and it pairs again by itself."><Button size="sm" variant="secondary" icon="key-round">Use a token</Button></SettingRow>
       </Group>
+      <WithoutApp linked />
       <Group title="Bridge" foot="Loopback only. Nothing outside this computer can reach it. Change the port only if you started APM with APM_BRIDGE_PORT.">
         <SettingRow title="Address" description="Where the extension looks for APM."><span className="port-row"><span className="mono">127.0.0.1:41417</span><IconButton icon="pencil" label="Change port" size="xs" /></span></SettingRow>
         <SettingRow title="Extension ID" description="Pinned by the build, so it is the same on every computer."><span className="mono-small muted">ioooalainhfihaebgpbmngoaojmfdlac</span></SettingRow>
@@ -994,17 +1238,17 @@ export function ExtOptions_Welcome() {
           <Mark tile size={44} />
           <div className="welcome-text">
             <h1 className="title-1">Welcome to APM for Chrome</h1>
-            <p className="small muted">The extension fills from your vault through the APM app on this computer. Open the app and it connects by itself.</p>
+            <p className="small muted">The extension fills from your vault through the APM app, or through pm when the app is closed. Open the app, or link this browser once, and it connects by itself.</p>
           </div>
         </div>
         <ol className="steps welcome-steps">
-          <li className="is-done"><span className="step-n"><Icon name="check" size={12} strokeWidth={2.5} /></span><span>Open the APM app, or run <span className="mono">pm bridge serve</span> in a terminal.</span></li>
-          <li><span className="step-n">2</span><span>The extension pairs itself. If APM asks, check the code and choose <b>Connect</b>.</span></li>
+          <li className="is-done"><span className="step-n"><Icon name="check" size={12} strokeWidth={2.5} /></span><span>Open the APM app, or run this once in a terminal so the browser can start pm without the app:</span></li>
+          <li><span className="step-n">2</span><span>The extension pairs itself. Check the code, then choose <b>Connect</b> in the app or answer <b>y</b> in the terminal.</span></li>
           <li><span className="step-n">3</span><span>Pin APM to the toolbar from the puzzle icon, and unlock your vault.</span></li>
         </ol>
         <div className="welcome-foot"><Button size="sm" variant="ghost">Hide</Button></div>
       </div>
-      <OptHead title="Connection">The extension cannot decrypt anything on its own. It asks the APM app on this computer, which holds the key while the vault is unlocked.</OptHead>
+      <OptHead title="Connection">The extension cannot decrypt anything on its own. It asks the APM app on this computer, or pm when the app is closed, and that holds the key while the vault is unlocked.</OptHead>
       <Bridge />
       <Group title="Pair this browser">
         <div className="opt-pair">
@@ -1015,6 +1259,7 @@ export function ExtOptions_Welcome() {
           </div>
         </div>
       </Group>
+      <WithoutApp />
     </Options>
   );
 }
@@ -1086,6 +1331,9 @@ export function ExtOptions_Shortcuts() {
         <SettingRow title="Fill the highlighted login"><Kbd keys={["↵"]} /></SettingRow>
         <SettingRow title="Close the menu"><Kbd keys={["Esc"]} /></SettingRow>
       </Group>
+      <Group title="Right-click menu">
+        <SettingRow title="Fill a login, a one-time code or a strong password" description="Right-click any text field and choose APM." />
+      </Group>
     </Options>
   );
 }
@@ -1124,6 +1372,10 @@ export function ExtOptions_About() {
       </Group>
       <Group title="Permissions" foot="Website logos are fetched by the APM app from each site itself and cached on this computer. The extension never sends analytics or calls a server of its own.">
         <SettingRow title={<span className="mono">storage</span>} description="Keeps the pairing token, your extension settings and excluded sites." />
+        <SettingRow title={<span className="mono">activeTab</span>} description="Lets the toolbar popup and shortcuts work on the page you are on." />
+        <SettingRow title={<span className="mono">contextMenus</span>} description="Adds APM to the right-click menu on text fields." />
+        <SettingRow title={<span className="mono">offscreen, clipboardWrite, clipboardRead</span>} description="Copies secrets and clears the clipboard later, only if it still holds what APM copied." />
+        <SettingRow title={<span className="mono">alarms</span>} description="Checks once a minute whether APM is running and locked." />
         <SettingRow title={<span className="mono">All sites</span>} description="Finds login forms so APM can fill them. Nothing on the page is sent anywhere but the APM app." />
         <SettingRow title={<span className="mono">127.0.0.1</span>} description="Talks to the APM app on this computer. No other host is contacted." />
       </Group>
@@ -1140,10 +1392,10 @@ export function ExtOptions_Narrow() {
           <Select id="ext-opt-sec" size="sm" label="Section" defaultValue="connection" options={SECTIONS.map((x) => ({ value: x.id, label: x.label }))} />
         </aside>
         <main className="opt-main">
-          <OptHead title="Connection">The extension cannot decrypt anything on its own. It asks the APM app on this computer, which holds the key while the vault is unlocked.</OptHead>
-          <Bridge live />
+          <OptHead title="Connection">The extension cannot decrypt anything on its own. It asks the APM app on this computer, or pm when the app is closed, and that holds the key while the vault is unlocked.</OptHead>
+          <Bridge live app="pm" />
           <Group>
-            <SettingRow title="APM app" description="APM 9.2 on this computer"><Badge tone="success" icon="circle-check">Connected</Badge></SettingRow>
+            <SettingRow title="pm" description="The app is closed, so the browser started pm 12.0.0 for you."><Badge tone="success" icon="circle-check">Connected</Badge></SettingRow>
           </Group>
         </main>
       </div>
@@ -1328,11 +1580,15 @@ function ThemedMenu() {
 export const specs = {
   ExtTheme_Popup: { title: "The popup in both themes", caption: "The popup follows the system theme. Logos sit on `logo-plate`; dark ink logos such as Vercel invert with `logo-ink-filter`.", stage: "plain", flip: false, pad: "24px 12px" },
   ExtTheme_InPage: { title: "In-page frames in both themes", caption: "Frames follow the browser's color scheme, not the page's, so the menu looks the same on every site.", stage: "plain", flip: false, pad: "24px 12px" },
-  ExtPopup_Pairing: { title: "Pairing", caption: "`.px-pair`. With APM found, `pair-found` says so and Connect starts pairing. APM shows the same code; `pair-code` tiles split it 3 and 3 while `pair-wait` counts down.", stage: "subtle", pad: "28px 16px" },
-  ExtPopup_NotRunning: { title: "APM not running", caption: "`pair-found is-off` in `warning-soft` before pairing. Once paired, the offline state is a centered `EmptyState` that names the port.", stage: "subtle", pad: "28px 16px" },
+  ExtPopup_Pairing: { title: "Pairing with the app", caption: "`.px-pair`. With APM found, `pair-found` says so and Connect starts pairing. The `steps` show `pm extension link` as a block `Command` in `steps-cmd`. APM shows the same code; `pair-code` tiles split it 3 and 3 while `pair-wait` counts down.", stage: "subtle", pad: "28px 16px" },
+  ExtPopup_PairingPm: { title: "Pairing with pm, and by token", caption: "With the app closed, a linked pm asks in the terminal: answer y when the codes match. `pair-link` repeats the command in case pm is not running yet. The token form takes the token from the app's settings or `pm extension token --show`.", stage: "subtle", pad: "28px 16px" },
+  ExtPopup_NotRunning: { title: "APM not connected", caption: "`pair-found is-off` in `warning-soft` before pairing. Once paired, the offline state is a centered `EmptyState` that names the port, with the link command in `pair-link`.", stage: "subtle", pad: "28px 16px" },
+  ExtPopup_Errors: { title: "Linked pm failed, and a failed start", caption: "When the browser is linked but pm did not answer, the empty state quotes the browser's error and offers the link again to repair it. If the popup cannot start at all, it says so with Try again.", stage: "subtle", pad: "28px 16px" },
   ExtPopup_NoVault: { title: "No vault and starting", caption: "`.px-center` for single messages. While the popup loads, the app icon breathes with `.boot-mark`.", stage: "subtle", pad: "28px 16px" },
-  ExtPopup_Locked: { title: "Locked", caption: "`.px-lock`: the one `display` headline, `PasswordInput`, Touch ID when it is set up, a note that the password goes to APM, and the cipher line at the foot.", stage: "subtle", pad: "28px 16px" },
+  ExtPopup_Locked: { title: "Locked", caption: "`.px-lock`: the one `display` headline, `PasswordInput`, Touch ID when it is set up, a note that says where the password goes (the APM app, or pm through native messaging), and the cipher line at the foot.", stage: "subtle", pad: "28px 16px" },
+  ExtPopup_Unlocking: { title: "Unlocking and cooldown", caption: "While the key is derived, the input is busy with the hint Deriving key · Argon2id and an indeterminate `Progress`. After too many attempts the error counts the wait in seconds.", stage: "subtle", pad: "28px 16px" },
   ExtPopup_ThisSite: { title: "This site", caption: "`.match` cards: the login, copy buttons and Fill (`primary` on the first match when the page has a form), and a live code in `match-code`. A login saved for another site asks before it fills.", stage: "subtle", pad: "28px 16px" },
+  ExtPopup_SiteStates: { title: "Paused site and no website", caption: "Paused from the More menu, the site tile turns to `shield-off` and a neutral `Callout` offers Resume. A weak or reused password on this site gets a warning `Callout`. A tab without a website points to Vault.", stage: "subtle", pad: "28px 16px" },
   ExtPopup_VaultAndCodes: { title: "Vault and Codes", caption: "Vault groups `ItemRow` by recency under sticky `vgroup-head`s with the search and type filter pinned in `vault-tools`. Codes puts this site's codes first; a `code-row` copies on click.", stage: "subtle", pad: "28px 16px" },
   ExtPopup_Generator: { title: "Generator and the More menu", caption: "`.gen` reveals each new value out of a blur, digits in `accent` and symbols in `warning`. The More menu is a `Menu` aligned to the end of `px-head-actions`.", stage: "subtle", pad: "28px 16px" },
   ExtPopup_Detail: { title: "Item detail and new login", caption: "`fg-compact` narrows the label column to 92px. Websites lists every site of the login in `site-row`s with Add in the overline and a one-click row for the open tab. A new login takes several websites; `px-bar` holds the actions.", stage: "subtle", pad: "28px 16px" },
@@ -1342,21 +1598,23 @@ export const specs = {
   ExtMenu_NewPassword: { title: "New password", caption: "On a sign-up form the menu offers one strong password. Options opens the compact generator in place.", span: "half", height: 330 },
   ExtMenu_Locked: { title: "Locked", caption: "Never a password field in the page. The menu sends you to the toolbar.", span: "half", height: 330 },
   ExtMenu_Blocked: { title: "Blocked", caption: "http pages, frames from other sites and paused sites say why APM stays quiet.", span: "half", height: 220 },
-  ExtMenu_Connect: { title: "Not connected", caption: "Before pairing, or when APM is not running.", span: "half", height: 220 },
+  ExtMenu_Connect: { title: "Not connected", caption: "Before pairing, or when neither the APM app nor a linked pm answers.", span: "half", height: 220 },
+  ExtMenu_FieldIcon: { title: "Field icon", caption: "The APM mark at the right edge of fields APM can fill: 20px, or 16px in fields under 28px tall, at half opacity while APM is locked. Clicking it opens the menu. It is drawn in its own closed shadow root, so its few styles are inline in the content script and copy `mark-tile` and `mark-ink` by value.", span: "half", height: 330, stage: "dots" },
   ExtPrompt_Save: { title: "Save note", caption: "`.np` in a 360px frame, 12px from the top-right corner, after you sign in. The Not now menu also offers Never for the host. The password stays masked until you reveal it.", stage: "plain", pad: "24px" },
   ExtPrompt_Update: { title: "Update note", caption: "`np-diff` compares the saved and the new password by strength, never by value.", span: "half", height: 360 },
   ExtPrompt_Toast: { title: "Toasts", caption: "`pr-toast` confirms a save or a choice in the same corner, under any note, and leaves after 3.6s.", span: "half", height: 360 },
   ExtPrompt_PasskeyCreate: { title: "Passkey sheet", caption: "`.sheet` in a 400px frame, centered over an `overlay` scrim because the page asked for it. `pick is-on` shows where the passkey goes; Change opens the list.", stage: "plain", pad: "24px" },
   ExtPrompt_PasskeyStates: { title: "Passkey sheet, locked and sign-in", caption: "Locked, `sheet-locked` explains and waits: the sheet picks up as soon as APM unlocks, and without Touch ID the action is Unlock in the toolbar. Signing in lists passkeys as `pick` rows with a `pick-mark`; double-click signs in at once.", stage: "dots", pad: "28px 16px" },
-  ExtOptions_Connection: { title: "Connection", caption: "`.opt`: a 232px `bg-subtle` side with `NavItem`s and a live badge, and a main column capped at 640px. The bridge diagram animates while paired and unlocked.", stage: "subtle", pad: "24px" },
+  ExtPrompt_PasskeyChoose: { title: "Passkey sheet, choosing and no passkey", caption: "Change opens the list in `sheet-list`: suggested logins first, then New login, which takes a Space `Select`. Saved swaps the button to a check before the toast. With no passkey the site accepts, the sheet offers only Use another device.", stage: "dots", pad: "28px 16px" },
+  ExtOptions_Connection: { title: "Connection", caption: "`.opt`: a 232px `bg-subtle` side with `NavItem`s and a live badge, and a main column capped at 640px. The bridge diagram animates while paired and unlocked. Without the app shows whether the browser can start pm, with the link command in `opt-link`.", stage: "subtle", pad: "24px" },
   ExtOptions_Welcome: { title: "Welcome and pairing", caption: "Opened once after install. Steps turn `is-done` as APM is found, paired and unlocked.", stage: "subtle", pad: "24px" },
   ExtOptions_Autofill: { title: "Autofill", caption: "Groups of `SettingRow`s with an `opt-group-title` and an optional `opt-group-foot`.", stage: "subtle", pad: "24px" },
   ExtOptions_Passkeys: { title: "Passkeys", stage: "subtle", pad: "24px" },
   ExtOptions_Security: { title: "Security", stage: "subtle", pad: "24px" },
-  ExtOptions_Shortcuts: { title: "Shortcuts", caption: "Chrome owns the keys; the page shows them with `Kbd` and links to Chrome's shortcuts page.", stage: "subtle", pad: "24px" },
+  ExtOptions_Shortcuts: { title: "Shortcuts", caption: "Chrome owns the keys; the page shows them with `Kbd`, links to Chrome's shortcuts page, and lists the menu keys and the right-click menu.", stage: "subtle", pad: "24px" },
   ExtOptions_ExcludedSites: { title: "Excluded sites", caption: "`site-add` puts the host, the rule and Add on one row.", stage: "subtle", pad: "24px" },
   ExtOptions_About: { title: "About", stage: "subtle", pad: "24px" },
-  ExtOptions_Narrow: { title: "Narrow", caption: "Under 720px `.opt.is-narrow` stacks the side on top, swaps the nav for a `Select` and turns the bridge vertical.", stage: "subtle", pad: "24px" },
+  ExtOptions_Narrow: { title: "Narrow", caption: "Under 720px `.opt.is-narrow` stacks the side on top, swaps the nav for a `Select` and turns the bridge vertical. Shown here connected through pm with the app closed.", stage: "subtle", pad: "24px" },
   ExtApp_PairDialog: { title: "Pairing dialog", caption: "A `Dialog` in the desktop app, raised when a browser asks to pair. The code matches the popup's; it expires after 2 minutes.", height: 520 },
   ExtApp_BrowserExtension: { title: "Settings, Browser extension", caption: "The bridge status, a pending request with Deny and Connect, and how to connect. The saved passkeys follow on the same page.", stage: "subtle", pad: "28px 24px" },
   ExtApp_SavedPasskeys: { title: "Saved passkeys", caption: "Every passkey with its site, label, item and use count.", span: "half", stage: "subtle", pad: "24px 16px" },
